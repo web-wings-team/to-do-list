@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Modal,Button} from 'react-bootstrap';
+import { Modal, Button, Form, Row,Col } from 'react-bootstrap';
 
 // import Modal from 'react-bootstrap/Modal';
 // import Button from 'react-bootstrap/Button';
@@ -11,21 +11,32 @@ class AddTask extends React.Component {
             <>
                 <Modal show={this.props.stateOfModal} onHide={this.props.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Add Task</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form onSubmit={this.props.addBook} >
-                            <input type="text" name="date" />
-                            <input type="text" name="description" />
-                            <input type="submit" value="ADD TASK" />
-                        </form>
+                        <Form onSubmit={this.props.addTask}>
+                            <Form.Group as={Row} placeholder="FromGroup">
+                                <Col sm="12" >
+                                    <Form.Control size="lg" type="text" placeholder="Task Title" name="title" required/>
+                                </Col >
+                                <br /><hr />
+                                <Col sm="12" >
+                                    <Form.Control size="lg" type="text" placeholder="Task Description" name="description" required/>
+                                </Col >
+                                <br /><hr />
+                                <Col sm="12" >
+                                    <Form.Control size="lg" type="date" placeholder="Task Date" name="date" required />
+                                </Col >
+                                <br /><hr />
+                                <Button variant="primary" type="submit" onClick={this.props.handleClose} >
+                                    Add Task
+                                </Button>
+                            </Form.Group >
+                        </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.props.handleClose}>
-                            Close
-                        </Button>
                         <Button variant="primary" onClick={this.props.handleClose}>
-                            Save Changes
+                        Close
                         </Button>
                     </Modal.Footer>
                 </Modal>

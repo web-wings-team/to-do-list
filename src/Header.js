@@ -5,19 +5,19 @@ import { Link } from "react-router-dom";
 import './Header.css';
 import LogoutButton from './components/LogoutButton';
 import { withAuth0 } from '@auth0/auth0-react';
-import LoginButton from './components/LoginButton';
-
 
 class Header extends React.Component {
   render() {
-    const {isAuthenticated } = this.props.auth0;
-        return(
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand>My Favorite Books</Navbar.Brand>
+    const { isAuthenticated } = this.props.auth0;
+    return (
+      <Navbar className="header" collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar.Brand className="headerBrand" >My Favorite Books</Navbar.Brand>
         <Link to="/">Home</Link>
         <Link to="/my_tasks">My Tasks</Link>
-        {/* TODO: if the user is logged in, render the `LogoutButton` - if the user is logged out, render the `LoginButton` */}
-        {((isAuthenticated) ? <LogoutButton/> :<LoginButton/> )}
+        <Link to="/profile">Profile</Link>
+        <Link to="/About_Us">About Us</Link>
+
+        {((isAuthenticated) ? <LogoutButton/> :<p>Your are Not Login</p> )}
 
 
       </Navbar>

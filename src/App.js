@@ -6,8 +6,12 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import MyTasks from './components/MyTasks';
+import MyTasks from './components/Navbar/MyTasks';
 import { withAuth0 } from '@auth0/auth0-react';
+import Profile from './components/Navbar/Profile';
+import AboutUs from './components/Navbar/AboutUs';
+import Login from './Login';
+import 'react-bootstrap-country-select/dist/react-bootstrap-country-select.css';
 
 class App extends React.Component {
 
@@ -19,13 +23,23 @@ class App extends React.Component {
         <Router>
             <Header />
             <Switch>
+
               <Route exact path="/">
-              {((isAuthenticated) ? <MyTasks />  : <button>GET START</button>)}
-                
+              {((isAuthenticated) ? <MyTasks /> :<Login/> )}
               </Route>
+
+              <Route exact path="/profile">
+              {((isAuthenticated) ? <Profile/> :<Login/> )}
+              </Route>
+
+              <Route exact path="/About_Us">
+              <AboutUs/>
+              </Route>
+
               <Route exact path="/my_tasks">
-              {((isAuthenticated) ? <MyTasks />  : <p>Your are Not Login</p>)}
+              {((isAuthenticated) ? <MyTasks />  :<Login/>)}
               </Route>
+
             </Switch>
             <Footer />
         </Router>

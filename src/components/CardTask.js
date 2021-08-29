@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card,Button} from 'react-bootstrap';
+import { Card, Button, ListGroup } from 'react-bootstrap';
+// import myTask from '../myTask.json';
 
 class CardTask extends React.Component {
     constructor(props) {
@@ -10,18 +11,36 @@ class CardTask extends React.Component {
 
     render() {
         return (
-            
-                <Card style={{ width: '18rem' }}>
-                    <Card.Body>
-                        <Card.Title>{this.props.taskData.date}</Card.Title>
-                        <Card.Text>{this.props.taskData.description}</Card.Text>
-                        <Button variant="primary" onClick={()=>{this.props.deleteTask(this.props.taskData._id)}}>Delete</Button>
-                        <Button variant="primary" onClick={()=>{this.props.getTask_ID(this.props.taskData._id)}}>Update</Button>
-                    </Card.Body>
-                </Card>
-            
+            <div className='cardlist' >
+
+
+                {this.props.myTask.map((item, idx) => {
+                    return (
+                        <Card key={idx} style={{ width: '40rem' }}>
+                            <Card.Header>{item.title}</Card.Header>
+                            <Card.Body>
+                                <ListGroup >
+                                    <ListGroup.Item>{item.description}</ListGroup.Item>
+                                    <hr />
+                                    <ListGroup.Item>Clender Event</ListGroup.Item>
+                                </ListGroup>
+                                <br /><br />
+                                <Button variant="danger" onClick={() => { this.props.deleteTask(item._id) }} >Delete</Button>
+                                <Button variant="primary" onClick={() => { this.props.getTask_ID(item._id) }}>Update</Button>
+                            </Card.Body>
+                        </Card>
+                    )
+                }
+                )
+                }
+
+
+            </div>
+
         );
+
     }
+
 }
 
 export default CardTask;
