@@ -4,10 +4,7 @@ import { Card, Button, ListGroup } from 'react-bootstrap';
 // import myTask from '../myTask.json';
 
 class CardTask extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
+
 
     render() {
         return (

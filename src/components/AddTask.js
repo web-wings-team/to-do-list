@@ -1,9 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal, Button, Form, Row,Col } from 'react-bootstrap';
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 
-// import Modal from 'react-bootstrap/Modal';
-// import Button from 'react-bootstrap/Button';
 
 class AddTask extends React.Component {
     render() {
@@ -17,11 +15,11 @@ class AddTask extends React.Component {
                         <Form onSubmit={this.props.addTask}>
                             <Form.Group as={Row} placeholder="FromGroup">
                                 <Col sm="12" >
-                                    <Form.Control size="lg" type="text" placeholder="Task Title" name="title" required/>
+                                    <Form.Control size="lg" type="text" placeholder="Task Title" name="title" required />
                                 </Col >
                                 <br /><hr />
                                 <Col sm="12" >
-                                    <Form.Control size="lg" type="text" placeholder="Task Description" name="description" required/>
+                                    <Form.Control size="lg" type="text" placeholder="Task Description" name="description" required />
                                 </Col >
                                 <br /><hr />
                                 <Col sm="12" >
@@ -36,7 +34,7 @@ class AddTask extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="primary" onClick={this.props.handleClose}>
-                        Close
+                            Close
                         </Button>
                     </Modal.Footer>
                 </Modal>
