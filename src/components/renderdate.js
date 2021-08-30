@@ -6,7 +6,7 @@ class Renderdtask extends React.Component {
 
 
     render() {
-        console.log('rrrrrrrr',this.props);
+        // console.log('rrrrrrrr',this.props);
 
         // console.log('rrrrrrrr',this.props.currentDate)
         return (

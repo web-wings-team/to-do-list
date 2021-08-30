@@ -61,13 +61,15 @@ class MyTasks extends Component {
         }
         let today = new Date(),
             date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        this.setState({
+        await this.setState({
             currentdate: date,
         })
 
         // http://localhost:3000/getTasks?email=a.nazzal&date=Aug-28-2021
+        // localhost:3001/getSlice?email=a.nazzal&date=2021-8-30
         const { user } = this.props.auth0;
-        let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getTasks?email=${user.email}&date=${this.state.currentdate}`);
+        // let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=2021-01-20`);
+        let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=${this.state.currentdate}`);
         await this.setState({
             taskData: tasks.data
         });
@@ -92,20 +94,26 @@ class MyTasks extends Component {
             date: e.target.date.value,
             email: user.email,
         }
+        console.log(taskDataInfo.date);
         //http://localhost:3000/addTask?email=a.nazzal, Params
-        // let task = await axios.post(`${process.env.REACT_APP_SERVER}/addTask`, taskDataInfo);
-        // await this.setState({
-        //     taskData: task.data
-        // });
-        console.log('rrrrrrrrrr', taskDataInfo);
-        // this.componentDidMount();
+        // localhost:3001/addSlice,{ }...
+
+        let task = await axios.post(`${process.env.REACT_APP_SERVER}/addSlice`, taskDataInfo);
+        await this.setState({
+            taskData: task.data
+        });
+        // console.log('rrrrrrrrrr', taskDataInfo);
+        // this.state
+        // console.log();
+        this.componentDidMount();
     }
     //**********************************************************************************///
     ///To Delete Task And and Re-render My tasks depend on email + date//////
     deleteTask = async (task_id) => {
         const { user } = this.props.auth0;
         //localhost:3001/deleteTask/61290aaf7961c8b994543c97?email=a.nazzal1995@gmail.com
-        let task = await axios.delete(`${process.env.REACT_APP_SERVER}/deleteTask/${task_id}?${user.email}`);//&date
+        // localhost:3001/deletSlice/:sliceId?email=a.nzzal&date=currentdate
+        let task = await axios.delete(`${process.env.REACT_APP_SERVER}/deletSlice/${task_id}?email=${user.email}&date=${this.state.currentdate}`);//&date
         await this.setState({
             taskData: task.data
         });
@@ -143,7 +151,7 @@ class MyTasks extends Component {
         // await this.setState({
         //     taskData: task.data
         // });
-        console.log({ taskInfo });
+        // console.log({ taskInfo });
         // this.componentDidMount();
     }
     getdate = (e) => {
@@ -152,7 +160,8 @@ class MyTasks extends Component {
         this.setState({
             currentdate: newdate,
         })
-        console.log("new date is => ", newdate)
+        // console.log("new date is => ", newdate);
+        this.componentDidMount();
     }
     //**********************************************************************************///
     ///To get the countrydata & id to send it to the api to receive needed data///////
@@ -167,7 +176,7 @@ class MyTasks extends Component {
             name: this.state.countrydata.name,
         }
         //localhost/3000/countrydata
-        console.log({ countrydatainfo })
+        // console.log({ countrydatainfo })
         await this.setState({
             countrydata: [],
         })
@@ -175,9 +184,9 @@ class MyTasks extends Component {
 
     //**************************************************************************************** */
     render() {
-        console.log('currentdate', this.state.currentdate)
-        console.log('ffffffffff', this.state.countrydata)
-        console.log(this.state.country)
+        // console.log('currentdate', this.state.currentdate)
+        // console.log('ffffffffff', this.state.countrydata)
+        // console.log(this.state.country)
         const { country } = this.state;
         return (
             <div>
@@ -203,7 +212,11 @@ class MyTasks extends Component {
                     Add Task
                 </Button>
                 {/* ///////////////////////////////////////////////////////////////// */}
-                <Renderdtask getdate={this.getdate} showrenderdat={this.state.showrenderdat} handlerenderdate={this.handlerenderdate} currentdate={this.state.currentdate} />
+                <Renderdtask
+                    getdate={this.getdate}
+                    showrenderdat={this.state.showrenderdat}
+                    handlerenderdate={this.handlerenderdate}
+                    currentdate={this.state.currentdate} />
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <AddTask
                     showMAddTask={this.state.showMAddTask}
