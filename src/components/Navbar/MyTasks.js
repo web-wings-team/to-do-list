@@ -7,76 +7,82 @@ import React, { Component } from 'react';
 import CardTask from '../CardTask';
 import AddTask from '../AddTask';
 import axios from 'axios';
-
-
+import { Modal } from 'react-bootstrap';
+import Renderdtask from '../renderdate';
 class MyTasks extends Component {
     constructor(props) {
         super(props);
         this.state = {
             //For Add Task modals
-            stateOfModal: false,
+            showMAddTask: false,
             ///For Update Task modals
-            stateOfUpdateModal: false,
+            shoeMUpdaTetask: false,
             //For our tasks Data
+            showMContry: false,
+            showrenderdat: false,
             taskData: [],
-            // date: "",
-            //For date in the calendar
-            date: new Date(),
-            //For date in the calendar(String)
             dateStr: "",
             //To Specify the task that I want to update
             chosenTaskInfo: {},
             country: '',
             countrydata: {},
+            currentdate: '',
+            countryapproved: false
         }
     }
     ///***********************************************************************************///
     ///**********************************************************************************///
-    /////////////////////////////////////////////////////
-    ///For Render My tasks depend on email + date //////
-    ////////////////////////////////////////////////////
-    componentDidMount = async () => {
+    handeladdmodal = () => {
+        this.setState({
+            showMAddTask: !this.state.showMAddTask,
+        })
+    }
+    handelupdatemodal = () => {
+        this.setState({
+            shoeMUpdaTetask: !this.state.shoeMUpdaTetask,
+        })
+    }
+    handelcontrymodal = () => {
+        this.setState({
+            showMContry: !this.state.showMContry,
+        })
+    }
+    handlerenderdate = () => {
+        this.setState({ showrenderdat: !this.state.showrenderdat })
+    }
 
-        // await this.getDate();
-        //http://localhost:3000/getTasks?email=a.nazzal&date=Aug-28-2021
-        // const { user } = this.props.auth0;
-        // let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getTasks?email=${user.email}&date=${this.state.dateStr}`);
-        // await this.setState({
-        //     taskData: tasks.data
-        // });
-        // this.SelectedCounty();
+    ///For Render My tasks depend on email + date //////
+    componentDidMount = async () => {
+        if (this.state.countryapproved === false || this.state.countrydata === '') {
+            this.setState({
+                showMContry: true,
+                countryapproved: true,
+            })
+        }
+        let today = new Date(),
+            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        this.setState({
+            currentdate: date,
+        })
+
+        // http://localhost:3000/getTasks?email=a.nazzal&date=Aug-28-2021
+        const { user } = this.props.auth0;
+        let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getTasks?email=${user.email}&date=${this.state.currentdate}`);
+        await this.setState({
+            taskData: tasks.data
+        });
     }
     //**********************************************************************************///
-    //////////////////////////////
     ///To giting country val/////
-    ////////////////////////////
     selectCountry(val) {
 
         this.setState({ country: val });
     }
     //**********************************************************************************///
-    //////////////////////////////
     ///To close the modal////////
-    ////////////////////////////
-    handleClose = () => {
-        this.setState({
-            stateOfModal: false,
-            stateOfUpdateModal: false
-        });
-    };
+
     //**********************************************************************************///
-    /////////////////////////////
-    ///To Open the modal////////
-    ////////////////////////////
-    showModal = () => {
-        this.setState({
-            stateOfModal: true
-        })
-    };
-    //**********************************************************************************///
-    //////////////////////////////////////////////////////////////////////////////
     ///For Add new task and Re-render My tasks depend on email + date ///////////
-    ////////////////////////////////////////////////////////////////////////////
     addTask = async (e) => {
         e.preventDefault();
         const { user } = this.props.auth0;
@@ -85,9 +91,6 @@ class MyTasks extends Component {
             description: e.target.description.value,
             date: e.target.date.value,
             email: user.email,
-            alph2cod: this.state.countrydata.alpha2Code,
-            alph3cod: this.state.countrydata.alpha3Code,
-            name: this.state.countrydata.name,
         }
         //http://localhost:3000/addTask?email=a.nazzal, Params
         // let task = await axios.post(`${process.env.REACT_APP_SERVER}/addTask`, taskDataInfo);
@@ -98,23 +101,19 @@ class MyTasks extends Component {
         // this.componentDidMount();
     }
     //**********************************************************************************///
-    //////////////////////////////////////////////////////////////////////////
     ///To Delete Task And and Re-render My tasks depend on email + date//////
-    ////////////////////////////////////////////////////////////////////////
     deleteTask = async (task_id) => {
         const { user } = this.props.auth0;
         //localhost:3001/deleteTask/61290aaf7961c8b994543c97?email=a.nazzal1995@gmail.com
-        let task = await axios.delete(`${process.env.REACT_APP_SERVER}/deleteTask/${task_id}?${user.email}`);
+        let task = await axios.delete(`${process.env.REACT_APP_SERVER}/deleteTask/${task_id}?${user.email}`);//&date
         await this.setState({
             taskData: task.data
         });
     }
     //**********************************************************************************///
-    /////////////////////////////////////////////////////////////////
     ////// To get the Task_id: When Click on Update Button. ////////
     ////// And put the Info For specific item in chosenTask ///////
     ////// And Open Update Modal /////////////////////////////////
-    /////////////////////////////////////////////////////////////
     getTask_ID = async (task_id) => {
         let chosenTask = this.state.taskData.find((task) => {
             return task._id === task_id;
@@ -123,14 +122,12 @@ class MyTasks extends Component {
             {
                 // stateOfUpdateModal: false,
                 chosenTaskInfo: chosenTask,
-                stateOfUpdateModal: true
+                shoeMUpdaTetask: true
             }
         );
     }
     //**********************************************************************************///
-    ///////////////////////////////////////////////////////////////////////
     ///To Update Task and Re-render My tasks depend on email + date///////
-    /////////////////////////////////////////////////////////////////////
     updateTaskData = async (e) => {
         e.preventDefault();
         const { user } = this.props.auth0;
@@ -149,19 +146,36 @@ class MyTasks extends Component {
         console.log({ taskInfo });
         // this.componentDidMount();
     }
+    getdate = (e) => {
+        e.preventDefault();
+        let newdate = e.target.newdate.value
+        this.setState({
+            currentdate: newdate,
+        })
+        console.log("new date is => ", newdate)
+    }
     //**********************************************************************************///
-    //////////////////////////////////////////////////////////////////////////////////
     ///To get the countrydata & id to send it to the api to receive needed data///////
-    //////////////////////////////////////////////////////////////////////////////////
     getcountry = async (val) => {
         let countrydata_selected = await axios.get(`https://restcountries.eu/rest/v2/name/${val}`)
-        this.setState({
+        await this.setState({
             countrydata: countrydata_selected.data[0]
+        })
+
+        let countrydatainfo = {
+            alph2cod: this.state.countrydata.alpha2Code,
+            name: this.state.countrydata.name,
+        }
+        //localhost/3000/countrydata
+        console.log({ countrydatainfo })
+        await this.setState({
+            countrydata: [],
         })
     }
 
     //**************************************************************************************** */
     render() {
+        console.log('currentdate', this.state.currentdate)
         console.log('ffffffffff', this.state.countrydata)
         console.log(this.state.country)
         const { country } = this.state;
@@ -169,22 +183,38 @@ class MyTasks extends Component {
             <div>
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <div>
-                    <CountryDropdown
-                        value={country}
-                        onChange={(val) => { this.selectCountry(val.split(" ")[0]); this.getcountry(val.split(" ")[0]) }} />
+                    <Modal show={this.state.showMContry}>
+                        <Modal.Header closeButton onHide={this.handelcontrymodal}>
+                            <Modal.Title>choose a country</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <CountryDropdown
+                                value={country}
+                                onChange={(val) => { this.selectCountry(val.split(" ")[0]); this.getcountry(val.split(" ")[0]) }} />
+                        </Modal.Body>
+                    </Modal>
                 </div>
+                {<Button variant="primary" onClick={this.handelcontrymodal}>
+                    GET WETHER
+                </Button>}
                 {/* ///////////////////////////////////////////////////////////////// */}
-                <Button variant="primary" onClick={this.showModal}>
+                <Button variant="primary" onClick={this.handeladdmodal}>
                     Add Task
                 </Button>
                 {/* ///////////////////////////////////////////////////////////////// */}
+                <Renderdtask getdate={this.getdate} showrenderdat={this.state.showrenderdat} handlerenderdate={this.handlerenderdate} currentdate={this.state.currentdate} />
+                {/* ///////////////////////////////////////////////////////////////// */}
                 <AddTask
-                    stateOfModal={this.state.stateOfModal}
+                    showMAddTask={this.state.showMAddTask}
                     // dateStr={this.state.dateStr}
-                    handleClose={this.handleClose}
+                    handeladdmodal={this.handeladdmodal}
                     addTask={this.addTask}
                 />
                 {/* ///////////////////////////////////////////////////////////////// */}
+
+                {/* ///////////////////////////////////////////////////////////////// */}
+
                 {/* to render All my task FROM API*/}
                 {
                     <CardTask
@@ -198,8 +228,8 @@ class MyTasks extends Component {
                 {
                     this.state.stateOfUpdateModal &&
                     <UpdateTaskModal
-                        stateOfUpdateModal={this.state.stateOfUpdateModal}
-                        handleClose={this.handleClose}
+                        shoeMUpdaTetask={this.state.shoeMUpdaTetask}
+                        handelupdatemodal={this.handelupdatemodal}
                         chosenTaskInfo={this.state.chosenTaskInfo}
                         updateTaskData={this.updateTaskData}
                     />
@@ -208,8 +238,6 @@ class MyTasks extends Component {
         );
     }
 }
-
-
 
 export default withAuth0(MyTasks);
 

@@ -7,7 +7,7 @@ class AddTask extends React.Component {
     render() {
         return (
             <>
-                <Modal show={this.props.stateOfModal} onHide={this.props.handleClose}>
+                <Modal show={this.props.showMAddTask} onHide={this.props.handeladdmodal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add Task</Modal.Title>
                     </Modal.Header>
@@ -19,21 +19,21 @@ class AddTask extends React.Component {
                                 </Col >
                                 <br /><hr />
                                 <Col sm="12" >
-                                    <Form.Control size="lg" type="text" placeholder="Task Description" name="description" required />
+                                    <Form.Control size="lg" as="textarea" rows={3} placeholder="Task Description" name="description" required />
                                 </Col >
                                 <br /><hr />
                                 <Col sm="12" >
-                                    <Form.Control size="lg" type="date" placeholder="Task Date" name="date" required />
+                                    <Form.Control size="lg" type="date" name="date" required />
                                 </Col >
                                 <br /><hr />
-                                <Button variant="primary" type="submit" onClick={this.props.handleClose} >
+                                <Button variant="primary" type="submit" onClick={this.props.handeladdmodal} >
                                     Add Task
                                 </Button>
                             </Form.Group >
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={this.props.handleClose}>
+                        <Button variant="primary" onClick={this.props.handeladdmodal}>
                             Close
                         </Button>
                     </Modal.Footer>
