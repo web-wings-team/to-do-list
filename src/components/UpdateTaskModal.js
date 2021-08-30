@@ -8,7 +8,7 @@ class UpdateTaskModal extends React.Component {
     render() {
         return (
             <>
-                <Modal show={this.props.shoeMUpdaTetask} onHide={this.props.handelupdatemodal}>
+                <Modal show={this.props.showUpdateModal} onHide={this.props.handelUpdateModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add Task</Modal.Title>
                     </Modal.Header>
@@ -34,7 +34,7 @@ class UpdateTaskModal extends React.Component {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={this.props.handeladdmodal}>
+                        <Button variant="primary" onClick={this.props.handelUpdateModal}>
                         Close
                         </Button>
                     </Modal.Footer>

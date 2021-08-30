@@ -8,18 +8,19 @@ import CardTask from '../CardTask';
 import AddTask from '../AddTask';
 import axios from 'axios';
 import { Modal } from 'react-bootstrap';
-import Renderdtask from '../renderdate';
+// import CalendarTask from '../CalendarTask';
+import DatePicker from '../DatePicker'
 class MyTasks extends Component {
     constructor(props) {
         super(props);
         this.state = {
             //For Add Task modals
-            showMAddTask: false,
+            showAddModal: false,
             ///For Update Task modals
-            shoeMUpdaTetask: false,
+            showUpdateModal: false,
             //For our tasks Data
             showMContry: false,
-            showrenderdat: false,
+            // showrenderdat: false,
             taskData: [],
             dateStr: "",
             //To Specify the task that I want to update
@@ -29,47 +30,52 @@ class MyTasks extends Component {
             currentdate: '',
             countryapproved: false
         }
+        let date = "";
     }
     ///***********************************************************************************///
     ///**********************************************************************************///
-    handeladdmodal = () => {
+
+    handelAddModal = () => {
         this.setState({
-            showMAddTask: !this.state.showMAddTask,
+            showAddModal: !this.state.showAddModal,
         })
     }
-    handelupdatemodal = () => {
+
+    handelUpdateModal = () => {
         this.setState({
-            shoeMUpdaTetask: !this.state.shoeMUpdaTetask,
+            showUpdateModal: !this.state.showUpdateModal,
         })
     }
-    handelcontrymodal = () => {
+
+    handelContryModal = () => {
         this.setState({
             showMContry: !this.state.showMContry,
         })
     }
-    handlerenderdate = () => {
-        this.setState({ showrenderdat: !this.state.showrenderdat })
-    }
+    // handlerenderdate = () => {
+    //     this.setState({ showrenderdat: !this.state.showrenderdat })
+    // }
 
     ///For Render My tasks depend on email + date //////
     componentDidMount = async () => {
-        if (this.state.countryapproved === false || this.state.countrydata === '') {
-            this.setState({
-                showMContry: true,
-                countryapproved: true,
-            })
-        }
-        let today = new Date(),
-            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        await this.setState({
-            currentdate: date,
-        })
+        // this.getCurrentDate();
+        // if (this.state.countryapproved === false || this.state.countrydata === '') {
+        //     this.setState({
+        //         showMContry: true,
+        //         countryapproved: true,
+        //     })
+        // }
+        // let today = new Date(),
+        //     date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        // await this.setState({
+        //     currentdate: date,
+        // })
 
         // http://localhost:3000/getTasks?email=a.nazzal&date=Aug-28-2021
         // localhost:3001/getSlice?email=a.nazzal&date=2021-8-30
         const { user } = this.props.auth0;
         // let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=2021-01-20`);
-        let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=${this.state.currentdate}`);
+        let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=${this.date}`);
         await this.setState({
             taskData: tasks.data
         });
@@ -94,7 +100,7 @@ class MyTasks extends Component {
             date: e.target.date.value,
             email: user.email,
         }
-        console.log(taskDataInfo.date);
+        // console.log(taskDataInfo.date);
         //http://localhost:3000/addTask?email=a.nazzal, Params
         // localhost:3001/addSlice,{ }...
 
@@ -123,6 +129,11 @@ class MyTasks extends Component {
     ////// And put the Info For specific item in chosenTask ///////
     ////// And Open Update Modal /////////////////////////////////
     getTask_ID = async (task_id) => {
+        await this.setState(
+            {
+                showUpdateModal: false
+            }
+        );
         let chosenTask = this.state.taskData.find((task) => {
             return task._id === task_id;
         })
@@ -130,7 +141,7 @@ class MyTasks extends Component {
             {
                 // stateOfUpdateModal: false,
                 chosenTaskInfo: chosenTask,
-                shoeMUpdaTetask: true
+                showUpdateModal: true
             }
         );
     }
@@ -154,17 +165,21 @@ class MyTasks extends Component {
         // console.log({ taskInfo });
         // this.componentDidMount();
     }
-    getdate = (e) => {
-        e.preventDefault();
-        let newdate = e.target.newdate.value
-        this.setState({
-            currentdate: newdate,
-        })
-        // console.log("new date is => ", newdate);
-        this.componentDidMount();
-    }
+
+    // getdate = (e) => {
+    //     e.preventDefault();
+    //     let newdate = e.target.newdate.value
+    //     this.setState({
+    //         currentdate: newdate,
+    //     })
+    //     // console.log("new date is => ", newdate);
+    //     this.componentDidMount();
+    // }
+
+    //--------------------
     //**********************************************************************************///
     ///To get the countrydata & id to send it to the api to receive needed data///////
+
     getcountry = async (val) => {
         let countrydata_selected = await axios.get(`https://restcountries.eu/rest/v2/name/${val}`)
         await this.setState({
@@ -182,6 +197,37 @@ class MyTasks extends Component {
         })
     }
 
+    getCurrentDate = () => {
+        //2021-8-30
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        // console.log(today);
+    }
+    getDate = (date) => {
+        var dd = String(date.getDate()).padStart(2, '0');
+        var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = date.getFullYear();
+
+        date = yyyy + '-' + mm + '-' + dd;
+        // console.log(date);
+        // this.setState({
+        //     currentdate: date
+        // });
+        this.date = date;
+        // this.componentDidMount();
+        console.log(this.date);
+
+    }
+    // componentDidUpdate() {
+    //     let date=this.getDate();
+    //     this.setState({
+    //         currentdate: date
+    //     });
+    //   }
     //**************************************************************************************** */
     render() {
         // console.log('currentdate', this.state.currentdate)
@@ -193,7 +239,7 @@ class MyTasks extends Component {
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <div>
                     <Modal show={this.state.showMContry}>
-                        <Modal.Header closeButton onHide={this.handelcontrymodal}>
+                        <Modal.Header closeButton onHide={this.handelContryModal}>
                             <Modal.Title>choose a country</Modal.Title>
                         </Modal.Header>
 
@@ -204,24 +250,23 @@ class MyTasks extends Component {
                         </Modal.Body>
                     </Modal>
                 </div>
-                {<Button variant="primary" onClick={this.handelcontrymodal}>
+                {<Button variant="primary" onClick={this.handelContryModal}>
                     GET WETHER
                 </Button>}
                 {/* ///////////////////////////////////////////////////////////////// */}
-                <Button variant="primary" onClick={this.handeladdmodal}>
+                <Button variant="primary" onClick={this.handelAddModal}>
                     Add Task
                 </Button>
                 {/* ///////////////////////////////////////////////////////////////// */}
-                <Renderdtask
-                    getdate={this.getdate}
-                    showrenderdat={this.state.showrenderdat}
-                    handlerenderdate={this.handlerenderdate}
-                    currentdate={this.state.currentdate} />
+                {/* ///////////////////////////////////////////////////////////////// */}
+                <DatePicker
+                    getDate={this.getDate}
+                />
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <AddTask
-                    showMAddTask={this.state.showMAddTask}
+                    showAddModal={this.state.showAddModal}
                     // dateStr={this.state.dateStr}
-                    handeladdmodal={this.handeladdmodal}
+                    handelAddModal={this.handelAddModal}
                     addTask={this.addTask}
                 />
                 {/* ///////////////////////////////////////////////////////////////// */}
@@ -241,8 +286,8 @@ class MyTasks extends Component {
                 {
                     this.state.stateOfUpdateModal &&
                     <UpdateTaskModal
-                        shoeMUpdaTetask={this.state.shoeMUpdaTetask}
-                        handelupdatemodal={this.handelupdatemodal}
+                        showUpdateModal={this.state.showUpdateModal}
+                        handelUpdateModal={this.handelUpdateModal}
                         chosenTaskInfo={this.state.chosenTaskInfo}
                         updateTaskData={this.updateTaskData}
                     />
