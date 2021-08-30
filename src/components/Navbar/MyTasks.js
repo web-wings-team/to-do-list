@@ -2,27 +2,26 @@ import 'react-bootstrap-country-select/dist/react-bootstrap-country-select.css';
 import { CountryDropdown } from 'react-country-region-selector';
 import UpdateTaskModal from '../UpdateTaskModal';
 import { withAuth0 } from '@auth0/auth0-react';
-import Button from 'react-bootstrap/Button';
 import React, { Component } from 'react';
 import CardTask from '../CardTask';
 import AddTask from '../AddTask';
 import axios from 'axios';
-import { Modal } from 'react-bootstrap';
 import Renderdtask from '../renderdate';
+import{Modal,Button,Form } from 'react-bootstrap/';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import countryData from "./countryData.json";
+
 class MyTasks extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //For Add Task modals
             showMAddTask: false,
-            ///For Update Task modals
             shoeMUpdaTetask: false,
-            //For our tasks Data
             showMContry: false,
             showrenderdat: false,
             taskData: [],
+            renderData: countryData ,
             dateStr: "",
-            //To Specify the task that I want to update
             chosenTaskInfo: {},
             country: '',
             countrydata: {},
@@ -191,18 +190,54 @@ class MyTasks extends Component {
         return (
             <div>
                 {/* ///////////////////////////////////////////////////////////////// */}
-                <div>
-                    <Modal show={this.state.showMContry}>
-                        <Modal.Header closeButton onHide={this.handelcontrymodal}>
-                            <Modal.Title>choose a country</Modal.Title>
-                        </Modal.Header>
+                <div >
 
-                        <Modal.Body>
-                            <CountryDropdown
-                                value={country}
-                                onChange={(val) => { this.selectCountry(val.split(" ")[0]); this.getcountry(val.split(" ")[0]) }} />
-                        </Modal.Body>
-                    </Modal>
+<Modal show={this.state.showMContry} style={{marginTop:'6%'}} >
+            <Modal.Header closeButton>
+              <Modal.Title>Add Your Country</Modal.Title>
+            </Modal.Header>
+            <Form onSubmit={this.addBook}  >
+              <Modal.Body>
+                <Form.Group className="mb-3">
+                  <Form.Label>
+                    Email address:
+                  </Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="enter your email"
+                    value={this.props.auth0.user.email}
+                    // defaultValue={this.props.auth0.user.email}
+                    id="email"
+                    readOnly
+                  />
+                </Form.Group>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+  <option selected>Search:</option>
+  {this.state.renderData.map((item)=>{
+     return(
+        <>
+
+    <option  value={item.value} >{item.name}, {item.code}</option> 
+    </>
+
+     )
+  })}
+ 
+</select>
+
+<select class="form-select form-select-sm" aria-label=".form-select-sm example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit"  variant="primary"> Confirm </Button>
+              </Modal.Footer>
+            </Form>
+          </Modal>
+
                 </div>
                 {<Button variant="primary" onClick={this.handelcontrymodal}>
                     GET WETHER
