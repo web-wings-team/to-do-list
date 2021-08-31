@@ -12,7 +12,7 @@ import Profile from './components/Navbar/Profile';
 import AboutUs from './components/Navbar/AboutUs';
 import Login from './Login';
 import 'react-bootstrap-country-select/dist/react-bootstrap-country-select.css';
-
+import Home from './components/Navbar/Home'
 class App extends React.Component {
 
   render() {
@@ -26,6 +26,10 @@ class App extends React.Component {
 
               <Route exact path="/">
               {((isAuthenticated) ? <MyTasks /> :<Login/> )}
+              </Route>
+
+              <Route exact path="/Home">
+              <Home/>
               </Route>
 
               <Route exact path="/profile">
