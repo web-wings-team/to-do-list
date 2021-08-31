@@ -4,6 +4,7 @@ import { Card, Button } from 'react-bootstrap';
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 
+
 class CardTask extends React.Component {
 
     colorgenerater = () => {

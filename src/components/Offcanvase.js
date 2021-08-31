@@ -10,8 +10,8 @@ class Offcanvase extends React.Component {
         return (
             <>
 
-                <div style={{ color: "red", border: "1px solid red", display: "inline-block",width:"20ch",height:"18ch" }} variant="primary" onClick={this.props.handeloffcanvasshow}>
-                Weather and Movies
+                <div style={{  border: "1px solid red", display: "inline-block",width:"20ch",height:"18ch" }} variant="primary" onClick={this.props.handeloffcanvasshow}>
+                <span>{this.props.countryName} <img width="50px"  src={`/static/images/${this.props.weatherData.full.weather.icon}.png`} alt="logo" />{this.props.weatherData.descreption}  </span>
                 </div>
 
                 <Offcanvas show={this.props.offcanvasshow} >

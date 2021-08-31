@@ -7,7 +7,7 @@ import CardTask from '../CardTask';
 import AddTask from '../AddTask';
 import axios from 'axios';
 import { Modal, Form } from 'react-bootstrap';
-
+import './MyTasks.css';
 // import Renderdtask from '../renderdate';
 import DatePicker from '../../DatePicker';
 import countryData from "./countryData.json";
@@ -37,6 +37,7 @@ class MyTasks extends Component {
             countrydata: '',
             // countryapproved: false
             userInf: [],
+            weatherData:[],
         }
     }
     ///***********************************************************************************///
@@ -66,7 +67,7 @@ class MyTasks extends Component {
     }
     ///For Render My tasks depend on email + date //////
     componentDidMount = async () => {
-        let userConutryInDb = await axios.get(`http://localhost:3002/getContry?email=${this.props.auth0.user.email}`)
+        let userConutryInDb = await axios.get(`${process.env.REACT_APP_SERVER}/getContry?email=${this.props.auth0.user.email}`)
         console.log(userConutryInDb.data);
         await this.setState({
             userInf: userConutryInDb.data,
@@ -76,8 +77,17 @@ class MyTasks extends Component {
             this.setState({
                 showMContry: true,
             })
-
         }
+
+        if (this.state.userInf.length !== 0) {
+        // http://localhost:3002/weather?cityName=seattle
+        let weatherInf = await axios.get(`${process.env.REACT_APP_SERVER}/weather?cityName=${this.state.userInf[0].countryName}`)
+        console.log(weatherInf.data[0]);
+        await this.setState({
+            weatherData: weatherInf.data[0],
+        })
+    }
+
         // http://localhost:3000/getTasks?email=a.nazzal&date=Aug-28-2021
         this.getCurrentDate().then(() => {
             this.getTasks();
@@ -113,7 +123,11 @@ class MyTasks extends Component {
 
         });
 
-
+        let weatherInf = await axios.get(`${process.env.REACT_APP_SERVER}/weather?cityName=${this.state.userInf[0].countryName}`)
+        console.log(weatherInf.data[0]);
+        await this.setState({
+            weatherData: weatherInf.data[0],
+        })
         // console.log('rrrrrrrrrr', taskDataInfo);
         // this.componentDidMount();
     }
@@ -324,7 +338,7 @@ class MyTasks extends Component {
                         updateTaskData={this.updateTaskData}
                     />
                 }
-                {<Offcanvase handleUpdateCountry={this.handleUpdateCountry} handeloffcanvasshow={this.handeloffcanvasshow} offcanvasshow={this.state.offcanvasshow} />}
+                {this.state.userInf.length !== 0 &&this.state.weatherData.length !==0 &&<Offcanvase handleUpdateCountry={this.handleUpdateCountry} handeloffcanvasshow={this.handeloffcanvasshow} offcanvasshow={this.state.offcanvasshow} countryName={this.state.userInf[0].countryName} weatherData={this.state.weatherData} />}
             </div>
         );
     }
