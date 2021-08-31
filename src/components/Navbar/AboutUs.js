@@ -10,6 +10,7 @@ class Profile extends Component {
               <p>Mailk</p>
               <p>Abd</p>
               <p>Shamik</p>
+              
             {/* <img src={user.picture} alt={user.name} />
             <h2>{user.name}</h2>
             <p>{user.email}</p> */}
@@ -18,3 +19,4 @@ class Profile extends Component {
   }
 }
 export default withAuth0(Profile);
+
