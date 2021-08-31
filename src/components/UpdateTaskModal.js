@@ -15,17 +15,17 @@ class UpdateTaskModal extends React.Component {
                         <Form onSubmit={this.props.updateTaskData}>
                             <Form.Group as={Row} placeholder="FromGroup">
                                 <Col sm="12" >
-                                    <Form.Control size="lg" type="text" defaultValue="Task Title" name="updateTitle" required/>
+                                    <Form.Control size="lg" type="text" defaultValue={this.props.chosenTaskInfo.title} name="updateTitle" required/>
                                 </Col >
                                 <br />
                                 <hr />
                                 <Col sm="12" >
-                                    <Form.Control size="lg" type="text" defaultValue="Task Description" name="updateDescription" required/>
+                                    <Form.Control size="lg" type="text" defaultValue={this.props.chosenTaskInfo.description}name="updateDescription" required/>
                                 </Col >
                                 <br />
                                 <hr />
                                 <Col sm="12" >
-                                    <Form.Control size="lg" type="date" placeholder="Task Date" name="updateDate" required/>
+                                    <Form.Control size="lg" type="date" placeholder="Task Date" defaultValue={this.props.chosenTaskInfo.date} name="updateDate" readOnly/>
                                 </Col >
                                 <br />
                                 <hr />

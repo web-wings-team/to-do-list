@@ -32,7 +32,7 @@ class CardTask extends React.Component {
                                 <Card.Text>
                                     Description: {item.description}
                                     <hr />
-                                    Clender Event:  ...............
+                                    Clender Event : { item.holiday}
                                 </Card.Text>
                                 <hr />
 

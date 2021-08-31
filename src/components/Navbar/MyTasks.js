@@ -1,5 +1,4 @@
 import 'react-bootstrap-country-select/dist/react-bootstrap-country-select.css';
-import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import UpdateTaskModal from '../UpdateTaskModal';
 import { withAuth0 } from '@auth0/auth0-react';
 import Button from 'react-bootstrap/Button';
@@ -7,13 +6,14 @@ import React, { Component } from 'react';
 import CardTask from '../CardTask';
 import AddTask from '../AddTask';
 import axios from 'axios';
-import { Modal } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 
 // import Renderdtask from '../renderdate';
 import DatePicker from '../../DatePicker';
-
+import countryData from "./countryData.json";
 import Offcanvase from '../Offcanvase';
 import { GoDiffAdded } from "react-icons/go";
+
 
 class MyTasks extends Component {
     constructor(props) {
@@ -33,10 +33,10 @@ class MyTasks extends Component {
             chosenTaskInfo: {},
             country: '',
             region: '',
-            countrydata: '',
             currentdate: '',
+            countrydata: '',
             // countryapproved: false
-            userCountry:'',
+            userInf: [],
         }
     }
     ///***********************************************************************************///
@@ -55,7 +55,7 @@ class MyTasks extends Component {
     }
     handelcontrymodal = () => {
         this.setState({
-            showMContry: !this.state.showMContry,
+            showMContry: false,
         })
     }
 
@@ -69,14 +69,12 @@ class MyTasks extends Component {
         let userConutryInDb = await axios.get(`http://localhost:3002/getContry?email=${this.props.auth0.user.email}`)
         console.log(userConutryInDb.data);
         await this.setState({
-            userCountry: userConutryInDb.data,
+            userInf: userConutryInDb.data,
         })
 
-        if(this.state.userCountry.contry ===''){
-        // if (this.state.countryapproved === false && this.state.countrydata === '') {
+        if (this.state.userInf.length === 0) {
             this.setState({
                 showMContry: true,
-                // countryapproved: true,
             })
 
         }
@@ -87,9 +85,9 @@ class MyTasks extends Component {
     }
     //**********************************************************************************///
     ///To giting country val/////
-    selectCountry(val) {
+    selectCountry = async (val) => {
 
-        this.setState({ country: val });
+        await this.setState({ country: val });
     }
     //**********************************************************************************///
     ///To close the modal////////
@@ -97,52 +95,56 @@ class MyTasks extends Component {
         this.setState({ region: val });
     }
     // ***************************************************************************************
-    // addCountry = async () => {
-      
-    //     const { user } = this.props.auth0;
-    //     let taskDataInfo = {
-    //         title: e.target.title.value,
-    //         description: e.target.description.value,
-    //         date: e.target.date.value,
-    //         email: user.email
-    //     }
-    //     // http://localhost:3000/addSlice?email=a.nazzal, Params
-    //     let task = await axios.post(`${process.env.REACT_APP_SERVER}/addSlice`, taskDataInfo);
-    //     await this.setState({
-    //         taskData: task.data,
-    //         currentdate:taskDataInfo.date
-    //     });
+    addCountry = async (e) => {
+        e.preventDefault();
 
-    //     console.log('rrrrrrrrrr', taskDataInfo);
-    //     // this.componentDidMount();
-    // }
+        let countryData = {
+            countryName: e.target.select1.value.split(',')[0],
+            countryCode: e.target.select1.value.split(',')[1],
+            userName: e.target.name.value,
+            email: this.props.auth0.user.email,
+        }
+        this.handelcontrymodal();
+        // `http://localhost:3000/addContry?email=a.nazzal`,countryData
+        let userInf = await axios.post(`${process.env.REACT_APP_SERVER}/addContry?email=${this.props.auth0.user.email}`, countryData);
+        console.log(userInf);
+        await this.setState({
+            userInf: userInf.data,
+
+        });
+
+
+        // console.log('rrrrrrrrrr', taskDataInfo);
+        // this.componentDidMount();
+    }
     //**********************************************************************************///
     ///For Add new task and Re-render My tasks depend on email + date ///////////
     addTask = async (e) => {
         e.preventDefault();
+// ${process.env.REACT_APP_SERVER}/event?contryCode=${this.state.userInf[0].countryCode}&date=${e.target.date.value}
+        let holidayData = await axios.get(`${process.env.REACT_APP_SERVER}/event?contryCode=${this.state.userInf[0].countryCode}&date=${e.target.date.value}`);
+        console.log(holidayData.data[0].nameOfEvent );
+
         const { user } = this.props.auth0;
         let taskDataInfo = {
             title: e.target.title.value,
             description: e.target.description.value,
             date: e.target.date.value,
-            email: user.email
+            email: user.email,
+            holiday:holidayData.data[0].nameOfEvent,
         }
-        // http://localhost:3000/addSlice?email=a.nazzal, Params
+        // http://localhost:3000/addSlice?email=a.nazzal,obj
         let task = await axios.post(`${process.env.REACT_APP_SERVER}/addSlice`, taskDataInfo);
         await this.setState({
             taskData: task.data,
-            currentdate:taskDataInfo.date
         });
-
-        console.log('rrrrrrrrrr', taskDataInfo);
-        // this.componentDidMount();
     }
     //**********************************************************************************///
     ///To Delete Task And and Re-render My tasks depend on email + date//////
     deleteTask = async (task_id) => {
         const { user } = this.props.auth0;
         //localhost:3001/deleteTask/61290aaf7961c8b994543c97?email=a.nazzal1995@gmail.com
-        let task = await axios.delete(`${process.env.REACT_APP_SERVER}/deleteTask/${task_id}?${user.email}`);//&date
+        let task = await axios.delete(`${process.env.REACT_APP_SERVER}/deletSlice/${task_id}?email=${user.email}&date=${this.state.currentdate}`);//&date
         await this.setState({
             taskData: task.data
         });
@@ -159,15 +161,15 @@ class MyTasks extends Component {
         );
 
         let chosenTask = this.state.taskData.find((task) => {
-                return task._id === task_id;
-            })
+            return task._id === task_id;
+        })
 
         await this.setState(
-                {
-                    chosenTaskInfo: chosenTask,
-                    showUpdateModal: true
-                }
-            );
+            {
+                chosenTaskInfo: chosenTask,
+                showUpdateModal: true
+            }
+        );
     }
     //**********************************************************************************///
     ///To Update Task and Re-render My tasks depend on email + date///////
@@ -181,30 +183,17 @@ class MyTasks extends Component {
             date: e.target.updateDate.value,
             email: user.email
         }
-        // let task_id = this.state.chosenTask._id;
-        // let task = await axios.put(`${process.env.REACT_APP_SERVER}/book/${task_id}`, taskInfo);
-        // await this.setState({
-        //     taskData: task.data
-        // });
+        let task_id = this.state.chosenTaskInfo._id;
+        let task = await axios.put(`${process.env.REACT_APP_SERVER}/updateSlice/${task_id}`, taskInfo);
+        await this.setState({
+            taskData: task.data,
+            showUpdateModal: false,
+        });
+
         console.log({ taskInfo });
         // this.componentDidMount();
     }
     //**********************************************************************************///
-    ///To get the countrydata & id to send it to the api to receive needed data///////
-    getcountry = async (val) => {
-        //localhost/3000/countrydata
-        let countrydata_selected = await axios.get(`https://restcountries.eu/rest/v2/name/${val}`)
-        await this.setState({
-            countrydata: countrydata_selected.data[0]
-        })
-
-        let countrydatainfo = {
-            alph2cod: this.state.countrydata.alpha2Code,
-            name: this.state.countrydata.name,
-        }
-        
-        console.log({ countrydatainfo })
-    }
     getCurrentDate = async () => {
         console.log("INSIDEL getCurrentDate");
         //2021-8-30
@@ -212,7 +201,7 @@ class MyTasks extends Component {
         let dd = String(today.getDate()).padStart(2, '0');
         let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
         let yyyy = today.getFullYear();
-        
+
         today = yyyy + '-' + mm + '-' + dd;
         await this.setState({
             currentdate: today
@@ -239,44 +228,60 @@ class MyTasks extends Component {
             taskData: tasks.data
         });
     }
-    // dateState=(value)=> {
-    //     this.setState({
-    //         currentdate:value
-    //     })
-
-    // }
-
-
-
     //**************************************************************************************** */
     render() {
         console.log('currentdate', this.state.currentdate)
-        console.log('ffffffffff', this.state.countrydata)
-        console.log(this.state.country)
-        console.log(this.state.region)
-        const { country, region } = this.state;
         return (
             <div>
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <div>
-                    <Modal show={this.state.showMContry}>
-                        <Modal.Header closeButton onHide={this.handelcontrymodal}>
-                            <Modal.Title>choose a country</Modal.Title>
+                    <Modal show={this.state.showMContry} >
+                        <Modal.Header closeButton>
+                            <Modal.Title></Modal.Title>
                         </Modal.Header>
+                        <Form onSubmit={this.addCountry}  >
+                            <Modal.Body>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>
+                                        Email address (the sign in email by default)
+                                    </Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="enter your email"
+                                        value={this.props.auth0.user.email}
+                                        // defaultValue={this.props.auth0.user.email}
+                                        id="email"
+                                        readOnly
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>user name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="enter your name"
+                                        id="name"
+                                        required
 
-                        <Modal.Body>
-                            <CountryDropdown
-                                value={country}
-                                onChange={(val) => { this.selectCountry(val.split(" ")[0]); this.getcountry(val.split(" ")[0]) }} />
-                            <RegionDropdown
-                                country={country}
-                                value={region}
-                                onChange={(val) => this.selectRegion(val)} />
+                                    />
+                                </Form.Group>
+                                <Form.Label>select country</Form.Label>
+                                <Form.Select id="select1" aria-label="Default select example" required>
+                                    {countryData.map((item, i) => {
 
-                        </Modal.Body>
-                        <Button variant="primary" onClick={this.handelcontrymodal}>
-                            Close
-                        </Button>
+                                        return (
+                                            <>
+
+                                                <option key={i} value={`${item.name},${item.code}`} > {item.name}, {item.code}</option>
+                                            </>
+
+                                        )
+                                    })}
+                                </Form.Select>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button type="submit" variant="primary"> Add </Button>
+                            </Modal.Footer>
+                        </Form>
                     </Modal>
                 </div>
 
@@ -288,7 +293,7 @@ class MyTasks extends Component {
                 < DatePicker
                     getDate={this.getDate}
                     dateState={this.dateState}
-                    // dateUpdated={this.state.currentdate}
+                // dateUpdated={this.state.currentdate}
                 />
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <AddTask
@@ -319,7 +324,7 @@ class MyTasks extends Component {
                         updateTaskData={this.updateTaskData}
                     />
                 }
-                {<Offcanvase handelcontrymodal={this.handelcontrymodal} handeloffcanvasshow={this.handeloffcanvasshow} offcanvasshow={this.state.offcanvasshow} />}
+                {<Offcanvase handleUpdateCountry={this.handleUpdateCountry} handeloffcanvasshow={this.handeloffcanvasshow} offcanvasshow={this.state.offcanvasshow} />}
             </div>
         );
     }
