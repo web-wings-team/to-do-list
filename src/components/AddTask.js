@@ -26,7 +26,7 @@ class AddTask extends React.Component {
                                     <Form.Control size="lg" type="date" name="date" required />
                                 </Col >
                                 <br /><hr />
-                                <Button variant="primary" type="submit" onClick={this.props.handeladdmodal} >
+                                <Button variant="primary" type="submit" >
                                     Add Task
                                 </Button>
                             </Form.Group >

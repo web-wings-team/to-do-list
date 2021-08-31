@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
+import { MdDateRange } from "react-icons/md";
 
 class Renderdtask extends React.Component {
 
@@ -12,8 +13,8 @@ class Renderdtask extends React.Component {
         return (
             <>
                 <div>
-                    <Modal show={this.props.showrenderdat} onHide={this.props.handlerenderdate}>
-                        <Modal.Header closeButton>
+                    <Modal show={this.props.showrenderdat} >
+                        <Modal.Header closeButton onHide={this.props.handlerenderdate}>
                             <Modal.Title>Tasks Date</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
@@ -23,7 +24,7 @@ class Renderdtask extends React.Component {
                                         <Form.Control size="lg" type="date" name="newdate" required />
                                     </Col >
                                     <br /><hr />
-                                    <Button onClick={this.props.handlerenderdate} variant="primary" type="submit" >
+                                    <Button variant="primary" type="submit" >
                                         Let's Go
                                     </Button>
                                 </Form.Group >
@@ -37,8 +38,8 @@ class Renderdtask extends React.Component {
                     </Modal>
                 </div>
                 <div>
-                    <Button onClick={this.props.handlerenderdate}  variant="outline-warning" >
-                     Date: {this.props.currentdate}
+                    <Button onClick={this.props.handlerenderdate}  variant="outline-secondary" >
+                     <MdDateRange  />    {this.props.currentdate} 
                     </Button>
                 </div>
             </>

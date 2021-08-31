@@ -9,6 +9,9 @@ import AddTask from '../AddTask';
 import axios from 'axios';
 import { Modal } from 'react-bootstrap';
 import Renderdtask from '../renderdate';
+import Offcanvase from '../Offcanvase';
+import { GoDiffAdded } from "react-icons/go";
+
 class MyTasks extends Component {
     constructor(props) {
         super(props);
@@ -20,12 +23,13 @@ class MyTasks extends Component {
             //For our tasks Data
             showMContry: false,
             showrenderdat: false,
+            offcanvasshow: false,
             taskData: [],
             dateStr: "",
             //To Specify the task that I want to update
             chosenTaskInfo: {},
             country: '',
-            countrydata: {},
+            countrydata: '',
             currentdate: '',
             countryapproved: false
         }
@@ -50,7 +54,11 @@ class MyTasks extends Component {
     handlerenderdate = () => {
         this.setState({ showrenderdat: !this.state.showrenderdat })
     }
-
+    handeloffcanvasshow = () => {
+        this.setState({
+            offcanvasshow: !this.state.offcanvasshow,
+        })
+    }
     ///For Render My tasks depend on email + date //////
     componentDidMount = async () => {
         if (this.state.countryapproved === false || this.state.countrydata === '') {
@@ -168,9 +176,9 @@ class MyTasks extends Component {
         }
         //localhost/3000/countrydata
         console.log({ countrydatainfo })
-        await this.setState({
-            countrydata: [],
-        })
+        // await this.setState({
+        //     countrydata:'',
+        // })
     }
 
     //**************************************************************************************** */
@@ -193,14 +201,15 @@ class MyTasks extends Component {
                                 value={country}
                                 onChange={(val) => { this.selectCountry(val.split(" ")[0]); this.getcountry(val.split(" ")[0]) }} />
                         </Modal.Body>
+                        <Button variant="primary" onClick={this.handelcontrymodal}>
+                                Close
+                            </Button>
                     </Modal>
                 </div>
-                {<Button variant="primary" onClick={this.handelcontrymodal}>
-                    GET WETHER
-                </Button>}
+
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <Button variant="primary" onClick={this.handeladdmodal}>
-                    Add Task
+                <GoDiffAdded  />  ADD Task
                 </Button>
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <Renderdtask getdate={this.getdate} showrenderdat={this.state.showrenderdat} handlerenderdate={this.handlerenderdate} currentdate={this.state.currentdate} />
@@ -226,7 +235,6 @@ class MyTasks extends Component {
                 {/* ///////////////////////////////////////////////////////////////// */}
                 {/* For Open Update task Info modal */}
                 {
-                    this.state.stateOfUpdateModal &&
                     <UpdateTaskModal
                         shoeMUpdaTetask={this.state.shoeMUpdaTetask}
                         handelupdatemodal={this.handelupdatemodal}
@@ -234,6 +242,7 @@ class MyTasks extends Component {
                         updateTaskData={this.updateTaskData}
                     />
                 }
+                {<Offcanvase handelcontrymodal={this.handelcontrymodal} handeloffcanvasshow={this.handeloffcanvasshow} offcanvasshow={this.state.offcanvasshow} />}
             </div>
         );
     }
