@@ -7,7 +7,7 @@ class AddTask extends React.Component {
     render() {
         return (
             <>
-                <Modal show={this.props.showMAddTask} onHide={this.props.handeladdmodal}>
+                <Modal show={this.props.showAddModal} onHide={this.props.handleAddModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add Task</Modal.Title>
                     </Modal.Header>
@@ -26,14 +26,14 @@ class AddTask extends React.Component {
                                     <Form.Control size="lg" type="date" name="date" required />
                                 </Col >
                                 <br /><hr />
-                                <Button variant="primary" type="submit" onClick={this.props.handeladdmodal} >
+                                <Button variant="primary" type="submit" >
                                     Add Task
                                 </Button>
                             </Form.Group >
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={this.props.handeladdmodal}>
+                        <Button variant="primary" onClick={this.props.handleAddModal}>
                             Close
                         </Button>
                     </Modal.Footer>

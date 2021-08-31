@@ -1,16 +1,15 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-// import  from 'react-bootstrap/Button';
 import { Modal, Button, Form, Row,Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class UpdateTaskModal extends React.Component {
 
     render() {
         return (
             <>
-                <Modal show={this.props.shoeMUpdaTetask} onHide={this.props.handelupdatemodal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Add Task</Modal.Title>
+                <Modal show={this.props.showUpdateModal} >
+                    <Modal.Header closeButton onHide={this.props.handleUpdateModal}>
+                        <Modal.Title>Update Task</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form onSubmit={this.props.updateTaskData}>
@@ -18,15 +17,18 @@ class UpdateTaskModal extends React.Component {
                                 <Col sm="12" >
                                     <Form.Control size="lg" type="text" defaultValue="Task Title" name="updateTitle" required/>
                                 </Col >
-                                <br /><hr />
+                                <br />
+                                <hr />
                                 <Col sm="12" >
                                     <Form.Control size="lg" type="text" defaultValue="Task Description" name="updateDescription" required/>
                                 </Col >
-                                <br /><hr />
+                                <br />
+                                <hr />
                                 <Col sm="12" >
                                     <Form.Control size="lg" type="date" placeholder="Task Date" name="updateDate" required/>
                                 </Col >
-                                <br /><hr />
+                                <br />
+                                <hr />
                                 <Button variant="primary" type="submit">
                                     Update Task
                                 </Button>
@@ -34,7 +36,7 @@ class UpdateTaskModal extends React.Component {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={this.props.handeladdmodal}>
+                        <Button variant="primary" onClick={this.props.handleUpdateModal}>
                         Close
                         </Button>
                     </Modal.Footer>
