@@ -196,7 +196,7 @@ class MyTasks extends Component {
             <Modal.Header closeButton>
               <Modal.Title>Add Your Country</Modal.Title>
             </Modal.Header>
-            <Form onSubmit={this.addBook}  >
+            <Form >
               <Modal.Body>
                 <Form.Group className="mb-3">
                   <Form.Label>
@@ -211,6 +211,9 @@ class MyTasks extends Component {
                     readOnly
                   />
                 </Form.Group>
+                <Form.Label>
+                    choose your country :
+                  </Form.Label>
                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
   <option selected>Search:</option>
   {this.state.renderData.map((item)=>{
@@ -224,7 +227,9 @@ class MyTasks extends Component {
   })}
  
 </select>
-
+<Form.Label>
+choose ur city :
+ </Form.Label>
 <select class="form-select form-select-sm" aria-label=".form-select-sm example">
   <option selected>Open this select menu</option>
   <option value="1">One</option>
