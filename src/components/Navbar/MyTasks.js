@@ -8,7 +8,8 @@ import CardTask from '../CardTask';
 import AddTask from '../AddTask';
 import axios from 'axios';
 import { Modal } from 'react-bootstrap';
-import Renderdtask from '../renderdate';
+// import Renderdtask from '../renderdate';
+import DatePicker from '../../DatePicker';
 class MyTasks extends Component {
     constructor(props) {
         super(props);
@@ -59,18 +60,22 @@ class MyTasks extends Component {
                 countryapproved: true,
             })
         }
-        let today = new Date(),
-            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        this.setState({
-            currentdate: date,
-        })
+        // let today = new Date(),
+        //     date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        // this.setState({
+        //     currentdate: date,
+        // })
 
         // http://localhost:3000/getTasks?email=a.nazzal&date=Aug-28-2021
-        const { user } = this.props.auth0;
-        let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getTasks?email=${user.email}&date=${this.state.currentdate}`);
-        await this.setState({
-            taskData: tasks.data
+        // const { user } = this.props.auth0;
+        this.getCurrentDate().then(() => {
+            this.getTasks();
         });
+
+        // let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getTasks?email=${user.email}&date=${this.state.currentdate}`);
+        // await this.setState({
+        //     taskData: tasks.data
+        // });
     }
     //**********************************************************************************///
     ///To giting country val/////
@@ -172,6 +177,50 @@ class MyTasks extends Component {
             countrydata: [],
         })
     }
+    getCurrentDate = async () => {
+        console.log("INSIDEL getCurrentDate");
+        //2021-8-30
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        await this.setState({
+            currentdate: today
+        })
+        console.log("currentdate", this.state.currentdate);
+
+        // console.log(today);
+    }
+
+    getDate = async (date) => {
+        var dd = String(date.getDate()).padStart(2, '0');
+        var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = date.getFullYear();
+
+        let date2 = yyyy + '-' + mm + '-' + dd;
+        console.log("date date" + date2);
+        await this.setState({
+            currentdate: date2
+        });
+        console.log(this.state.currentdate);
+
+        // this.date = date;
+        this.getTasks();
+        // console.log(this.state.currentdate);
+    }
+    getTasks = async () => {
+        // this.getCurrentDate();
+        const { user } = this.props.auth0;
+        // let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=2021-01-20`);
+        let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=${this.state.currentdate}`);
+        await this.setState({
+            taskData: tasks.data
+        });
+    }
+
+
 
     //**************************************************************************************** */
     render() {
@@ -203,7 +252,11 @@ class MyTasks extends Component {
                     Add Task
                 </Button>
                 {/* ///////////////////////////////////////////////////////////////// */}
-                <Renderdtask getdate={this.getdate} showrenderdat={this.state.showrenderdat} handlerenderdate={this.handlerenderdate} currentdate={this.state.currentdate} />
+                {/* <Renderdtask getdate={this.getdate} showrenderdat={this.state.showrenderdat} handlerenderdate={this.handlerenderdate} currentdate={this.state.currentdate} /> */}
+
+                < DatePicker
+                    getDate={this.getDate}
+                />
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <AddTask
                     showMAddTask={this.state.showMAddTask}
