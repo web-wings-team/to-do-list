@@ -35,7 +35,8 @@ class MyTasks extends Component {
             region: '',
             countrydata: '',
             currentdate: '',
-            countryapproved: false
+            // countryapproved: false
+            userCountry:'',
         }
     }
     ///***********************************************************************************///
@@ -65,28 +66,24 @@ class MyTasks extends Component {
     }
     ///For Render My tasks depend on email + date //////
     componentDidMount = async () => {
-        if (this.state.countryapproved === false && this.state.countrydata === '') {
+        let userConutryInDb = await axios.get(`http://localhost:3002/getContry?email=${this.props.auth0.user.email}`)
+        console.log(userConutryInDb.data);
+        await this.setState({
+            userCountry: userConutryInDb.data,
+        })
+
+        if(this.state.userCountry.contry ===''){
+        // if (this.state.countryapproved === false && this.state.countrydata === '') {
             this.setState({
                 showMContry: true,
-                countryapproved: true,
+                // countryapproved: true,
             })
-        }
-        // let today = new Date(),
-        //     date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        // this.setState({
-        //     currentdate: date,
-        // })
 
+        }
         // http://localhost:3000/getTasks?email=a.nazzal&date=Aug-28-2021
-        // const { user } = this.props.auth0;
         this.getCurrentDate().then(() => {
             this.getTasks();
         });
-
-        // let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getTasks?email=${user.email}&date=${this.state.currentdate}`);
-        // await this.setState({
-        //     taskData: tasks.data
-        // });
     }
     //**********************************************************************************///
     ///To giting country val/////
@@ -99,6 +96,26 @@ class MyTasks extends Component {
     selectRegion(val) {
         this.setState({ region: val });
     }
+    // ***************************************************************************************
+    // addCountry = async () => {
+      
+    //     const { user } = this.props.auth0;
+    //     let taskDataInfo = {
+    //         title: e.target.title.value,
+    //         description: e.target.description.value,
+    //         date: e.target.date.value,
+    //         email: user.email
+    //     }
+    //     // http://localhost:3000/addSlice?email=a.nazzal, Params
+    //     let task = await axios.post(`${process.env.REACT_APP_SERVER}/addSlice`, taskDataInfo);
+    //     await this.setState({
+    //         taskData: task.data,
+    //         currentdate:taskDataInfo.date
+    //     });
+
+    //     console.log('rrrrrrrrrr', taskDataInfo);
+    //     // this.componentDidMount();
+    // }
     //**********************************************************************************///
     ///For Add new task and Re-render My tasks depend on email + date ///////////
     addTask = async (e) => {
