@@ -30,7 +30,7 @@ class MyTasks extends Component {
             currentdate: '',
             countryapproved: false
         }
-        let date = "";
+        // let date = "";
     }
     ///***********************************************************************************///
     ///**********************************************************************************///
@@ -57,8 +57,10 @@ class MyTasks extends Component {
     // }
 
     ///For Render My tasks depend on email + date //////
-    componentDidMount = async () => {
-        // this.getCurrentDate();
+    componentDidMount =  () => {
+        this.getCurrentDate().then(()=>{
+            this.getTasks();
+        });
         // if (this.state.countryapproved === false || this.state.countrydata === '') {
         //     this.setState({
         //         showMContry: true,
@@ -73,12 +75,13 @@ class MyTasks extends Component {
 
         // http://localhost:3000/getTasks?email=a.nazzal&date=Aug-28-2021
         // localhost:3001/getSlice?email=a.nazzal&date=2021-8-30
-        const { user } = this.props.auth0;
-        // let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=2021-01-20`);
-        let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=${this.date}`);
-        await this.setState({
-            taskData: tasks.data
-        });
+        // const { user } = this.props.auth0;
+        // // let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=2021-01-20`);
+        // let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=${this.date}`);
+        // await this.setState({
+        //     taskData: tasks.data
+        // });
+        
     }
     //**********************************************************************************///
     ///To giting country val/////
@@ -197,30 +200,47 @@ class MyTasks extends Component {
         })
     }
 
-    getCurrentDate = () => {
+    getCurrentDate =async () => {
+        console.log("INSIDEL getCurrentDate");
         //2021-8-30
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = today.getFullYear();
 
         today = yyyy + '-' + mm + '-' + dd;
+        await this.setState({
+            currentdate:today
+        })
+        console.log("currentdate" ,this.state.currentdate);
+
         // console.log(today);
     }
-    getDate = (date) => {
+    getDate = async(date) => {
         var dd = String(date.getDate()).padStart(2, '0');
         var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = date.getFullYear();
 
-        date = yyyy + '-' + mm + '-' + dd;
-        // console.log(date);
-        // this.setState({
-        //     currentdate: date
-        // });
-        this.date = date;
-        // this.componentDidMount();
-        console.log(this.date);
+        let date2 = yyyy + '-' + mm + '-' + dd;
+        console.log("date date"+date2);
+        await this.setState({
+            currentdate: date2
+        });
+        console.log(this.state.currentdate);
 
+        // this.date = date;
+        this.getTasks();
+        // console.log(this.state.currentdate);
+
+    }
+    getTasks = async() => {
+        // this.getCurrentDate();
+        const { user } = this.props.auth0;
+        // let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=2021-01-20`);
+        let tasks = await axios.get(`${process.env.REACT_APP_SERVER}/getSlice?email=${user.email}&date=${this.state.currentdate}`);
+        await this.setState({
+            taskData: tasks.data
+        });
     }
     // componentDidUpdate() {
     //     let date=this.getDate();
@@ -238,7 +258,7 @@ class MyTasks extends Component {
             <div>
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <div>
-                    <Modal show={this.state.showMContry}>
+                    {/* <Modal show={this.state.showMContry}>
                         <Modal.Header closeButton onHide={this.handelContryModal}>
                             <Modal.Title>choose a country</Modal.Title>
                         </Modal.Header>
@@ -248,7 +268,7 @@ class MyTasks extends Component {
                                 value={country}
                                 onChange={(val) => { this.selectCountry(val.split(" ")[0]); this.getcountry(val.split(" ")[0]) }} />
                         </Modal.Body>
-                    </Modal>
+                    </Modal> */}
                 </div>
                 {<Button variant="primary" onClick={this.handelContryModal}>
                     GET WETHER

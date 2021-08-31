@@ -7,8 +7,13 @@ class MyApp extends Component {
     date: new Date(),
   }
 
-  onChange = date => this.setState({ date })
-
+  onChange =async (date) => {
+    await this.setState({ date })
+    this.getDateFunc();
+  }
+  getDateFunc = () => {
+    this.props.getDate(this.state.date)
+  }
   render() {
     return (
       <div>
@@ -16,7 +21,7 @@ class MyApp extends Component {
           onChange={this.onChange}
           value={this.state.date}
         />
-        {this.props.getDate(this.state.date)}
+        {/* {this.props.getDate(this.state.date)} */}
       </div>
     );
   }
