@@ -1,5 +1,5 @@
 import 'react-bootstrap-country-select/dist/react-bootstrap-country-select.css';
-import { CountryDropdown } from 'react-country-region-selector';
+import { CountryDropdown, RegionDropdown  } from 'react-country-region-selector';
 import UpdateTaskModal from '../UpdateTaskModal';
 import { withAuth0 } from '@auth0/auth0-react';
 import Button from 'react-bootstrap/Button';
@@ -29,6 +29,7 @@ class MyTasks extends Component {
             //To Specify the task that I want to update
             chosenTaskInfo: {},
             country: '',
+            region:'',
             countrydata: '',
             currentdate: '',
             countryapproved: false
@@ -61,7 +62,7 @@ class MyTasks extends Component {
     }
     ///For Render My tasks depend on email + date //////
     componentDidMount = async () => {
-        if (this.state.countryapproved === false || this.state.countrydata === '') {
+        if (this.state.countryapproved === false && this.state.countrydata === '') {
             this.setState({
                 showMContry: true,
                 countryapproved: true,
@@ -88,7 +89,9 @@ class MyTasks extends Component {
     }
     //**********************************************************************************///
     ///To close the modal////////
-
+    selectRegion(val) {
+        this.setState({ region: val });
+    }
     //**********************************************************************************///
     ///For Add new task and Re-render My tasks depend on email + date ///////////
     addTask = async (e) => {
@@ -186,7 +189,8 @@ class MyTasks extends Component {
         console.log('currentdate', this.state.currentdate)
         console.log('ffffffffff', this.state.countrydata)
         console.log(this.state.country)
-        const { country } = this.state;
+        console.log(this.state.region)
+        const { country,region  } = this.state;
         return (
             <div>
                 {/* ///////////////////////////////////////////////////////////////// */}
@@ -200,16 +204,21 @@ class MyTasks extends Component {
                             <CountryDropdown
                                 value={country}
                                 onChange={(val) => { this.selectCountry(val.split(" ")[0]); this.getcountry(val.split(" ")[0]) }} />
+                                  <RegionDropdown
+                                country={country}
+                                value={region}
+                                onChange={(val) => this.selectRegion(val)} />
+
                         </Modal.Body>
                         <Button variant="primary" onClick={this.handelcontrymodal}>
-                                Close
-                            </Button>
+                            Close
+                        </Button>
                     </Modal>
                 </div>
 
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <Button variant="primary" onClick={this.handeladdmodal}>
-                <GoDiffAdded  />  ADD Task
+                    <GoDiffAdded />  ADD Task
                 </Button>
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <Renderdtask getdate={this.getdate} showrenderdat={this.state.showrenderdat} handlerenderdate={this.handlerenderdate} currentdate={this.state.currentdate} />
