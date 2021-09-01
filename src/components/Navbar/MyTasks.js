@@ -1,17 +1,21 @@
 import "react-bootstrap-country-select/dist/react-bootstrap-country-select.css";
 import UpdateTaskModal from "../UpdateTaskModal";
+import SliceMovie from "../SliceMovie";
 import { withAuth0 } from "@auth0/auth0-react";
+import "./MyTasks.css";
 import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import CardTask from "../CardTask";
 import AddTask from "../AddTask";
 import axios from "axios";
-import { Modal, Form } from "react-bootstrap";
+import { Modal, Form  } from "react-bootstrap";
+import Card from 'react-bootstrap/Card';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 // import Renderdtask from '../renderdate';
 import DatePicker from "../../DatePicker";
 import countryData from "./countryData.json";
-import Offcanvase from "../Offcanvase";
 import { GoDiffAdded } from "react-icons/go";
 
 class MyTasks extends Component {
@@ -362,16 +366,27 @@ class MyTasks extends Component {
             updateTaskData={this.updateTaskData}
           />
         }
-        {this.state.movieShow && (
-          <Offcanvase
-            handleUpdateCountry={this.handleUpdateCountry}
-            handeloffcanvasshow={this.handeloffcanvasshow}
-            offcanvasshow={this.state.offcanvasshow}
-            movieData={this.state.movieData}
-            moooShow={this.state.movieShow}
+        
+        <div id="main" style={{ width: '100%', alignContent: "space-evenly" }}>
+        {this.state.movieShow && this.state.movieData.map((item,i)=>{
+
+            return(
+            
+            <SliceMovie
+            className="sliceMovie"
+            title={item.title}
+            key={i}
+            src={item.src}
+            date={item.date}
+            overview={item.overview}
           />
-        )}
+          )    
+        })
+
+        }
       </div>
+      </div>
+
     );
   }
 }
