@@ -10,15 +10,14 @@ class Offcanvase extends React.Component {
         return (
             <>
 
-                <div style={{ color: "red", border: "1px solid red", display: "inline-block",width:"20ch",height:"18ch" }} variant="primary" onMouseMove={this.props.handeloffcanvasshow}>
-                Weather and Movies
+                <div id="offcanvas"  onMouseMove={this.props.handeloffcanvasshow}>
                 </div>
 
                 <Offcanvas show={this.props.offcanvasshow} >
                     <Offcanvas.Header closeButton onHide={this.props.handeloffcanvasshow}>
                         <Offcanvas.Title>Wether and Movies</Offcanvas.Title>
                     </Offcanvas.Header>
-                    <span style={{ color: "black", border: "1px solid black", display: "inline-block",width:"16ch",height:"3ch" }} onClick={this.props.handelcontrymodal}>
+                    <span style={{ color: "black", border: "1px solid red", display: "inline-block",width:"16ch",height:"3ch" }} onClick={this.props.handelcontrymodal}>
                       Change Country  < AiFillSetting />  
                     </span>
                     <Offcanvas.Body>

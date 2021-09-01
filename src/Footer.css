@@ -1,0 +1,83 @@
+.footer{
+
+    display:inline-block;
+    background-color: #f0f0f0;
+    box-shadow: 2px 2px 4px 3px rgba(85, 85, 85, 0.424);
+    width: 100%;
+    padding:0em;
+}
+.footer img{
+    margin-top: 1em;
+    margin-left: 2em;
+}
+.footerBrand{
+    position: relative;
+    top:1.7em;
+    display:inline-block;
+    left:25em;
+}
+.footer .me-auto {
+    position: relative;
+    right: 12em;
+    bottom:12em;
+    display:inline-block;
+    /* border: 1px solid rgb(0, 38, 255); */
+
+}
+.footer hr{
+    position: relative;
+    top:1em;
+    
+}
+.footer .vision{
+    /* border: 1px solid red; */
+    position: relative;
+    left: 3em;
+    bottom: 1em;
+    width: 23em;
+    display:inline-block;
+    text-align: justify;
+    
+
+}
+ .vision h5{
+    margin-left: 0em;
+    margin-bottom: 0.5em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color:#364f6d;
+}
+.vision p{
+    font-size:0.9em;
+    /* font-weight:bold; */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+}
+.footer .contact{
+    /* border: 1px solid rgb(153, 63, 63); */
+    display:inline-block;
+    position: relative;
+    right: 8em;
+    top: 2em;
+    width: 15em;
+    text-align: center;
+}
+.footer .contact h6{
+    font-weight: bold;
+    width: 15em;
+}
+.footer .contact p{
+    font-weight: bold;
+    width: 15em;
+}
+.footer .icons{
+        /* border: 1px solid red; */
+        display:inline-block;
+        position: relative;
+        right: 4em;
+        bottom: 5em;
+}
+.icons svg{
+    margin-left: 2em;
+    width: 2em;
+    height: 2em;
+}

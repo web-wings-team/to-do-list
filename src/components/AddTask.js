@@ -15,7 +15,7 @@ class AddTask extends React.Component {
                         <Form onSubmit={this.props.addTask}>
                             <Form.Group as={Row} placeholder="FromGroup">
                                 <Col sm="12" >
-                                    <Form.Control size="lg" type="text" placeholder="Task Title" name="title" required />
+                                    <Form.Control size="lg" type="text" placeholder="Task Title" name="title" maxlength="30" required />
                                 </Col >
                                 <br /><hr />
                                 <Col sm="12" >

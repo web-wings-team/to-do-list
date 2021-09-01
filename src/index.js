@@ -9,6 +9,7 @@ ReactDOM.render(
     clientId={"rQeLMmHlLCpMspJwNxcZYee0nqjHFlEW"}
     redirectUri={window.location.origin}
   >
+    
     <App />
   </Auth0Provider>,
   document.getElementById("root")

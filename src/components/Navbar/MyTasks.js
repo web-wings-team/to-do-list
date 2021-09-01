@@ -11,7 +11,7 @@ import { Modal } from 'react-bootstrap';
 import Renderdtask from '../renderdate';
 import Offcanvase from '../Offcanvase';
 import { GoDiffAdded } from "react-icons/go";
-
+import './MyTasks.css'
 class MyTasks extends Component {
     constructor(props) {
         super(props);
@@ -217,11 +217,17 @@ class MyTasks extends Component {
                 </div>
 
                 {/* ///////////////////////////////////////////////////////////////// */}
-                <Button variant="primary" onClick={this.handeladdmodal}>
-                    <GoDiffAdded />  ADD Task
+                <Button className="btnaddtask btn-default"variant="warning" onClick={this.handeladdmodal}>
+                     ADD Task <GoDiffAdded /> 
                 </Button>
+
+
+
                 {/* ///////////////////////////////////////////////////////////////// */}
-                <Renderdtask getdate={this.getdate} showrenderdat={this.state.showrenderdat} handlerenderdate={this.handlerenderdate} currentdate={this.state.currentdate} />
+                {/* <Renderdtask getdate={this.getdate} showrenderdat={this.state.showrenderdat}handlerenderdate={this.handlerenderdate} currentdate={this.state.currentdate} /> */}
+
+
+
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <AddTask
                     showMAddTask={this.state.showMAddTask}

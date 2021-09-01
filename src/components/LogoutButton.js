@@ -10,7 +10,7 @@ function LogoutButton() {
   } = useAuth0();
 
   return isAuthenticated && (
-    <Button variant="primary" onClick={() => {
+    <Button variant="warning" onClick={() => {
       logout({ returnTo: window.location.origin });
     }}>Log out <FiLogOut/> </Button>
   );
