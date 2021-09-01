@@ -1,7 +1,36 @@
 a{
-  color:#fff;
+  color:rgb(0, 0, 0);
+  text-decoration: none;
+  margin-left: 2em;
+position: relative;
+left:32em;
+font-size:1.2em;
+font-weight:bold;
+font-family:monospace;
 }
-
 a:hover{
   color:darkgrey;
 }
+.header{
+  box-shadow: 2px 2px 4px 3px rgba(85, 85, 85, 0.424);
+  position: sticky;
+  top: 0;
+  padding: 2em;
+  z-index: 100;
+  background-color: #F0F0F0;
+  color: #000;
+}
+.header .btn{
+position: relative;
+left:41em
+}
+.header a svg{
+  width: 1.2em;
+  height: 1.2em;
+}
+.headerBrand{
+  font-weight: bold;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+  .header img{
+    width: 5em;
+  }

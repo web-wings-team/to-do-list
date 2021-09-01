@@ -334,7 +334,7 @@ class MyTasks extends Component {
               {this.state.userInf.length !== 0 && < UpdateContry showMupdateContry={this.state.showMupdateContry}  handelcontrymodal={this.handelcontrymodal} userInf={this.state.userInf[0]} updateCountry={this.updateCountry}/>}
 
                 {/* ///////////////////////////////////////////////////////////////// */}
-                <Button variant="primary" onClick={this.handleAddModal}>
+                <Button className="btnaddtask btn-default" variant="warning" onClick={this.handleAddModal}>
                     <GoDiffAdded />  ADD Task
                 </Button>
                 {/* ///////////////////////////////////////////////////////////////// */}

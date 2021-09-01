@@ -2,3 +2,58 @@
     z-index: -1;
     
 }
+.cardlist{
+    position: relative;
+    top:10em;
+    height: 280em;
+}
+
+.cardlist .mb-5 {
+    box-shadow: 2px 2px 4px 3px rgba(85, 85, 85, 0.424);
+    text-align:left;
+    display: inline-flex;
+    margin-left: 2em;
+    position: relative;
+    left: 1em;
+}
+.cardlist .mb-5 .card-header{
+    font-size:1.5em;
+    font-weight:bold;
+    text-align: center;
+}
+.cardlist .mb-5 .card-text {
+    font-size:1.2em;
+}
+.cardlist .mb-5 button{
+  margin-left:1em;
+  position: relative;
+  left: 3.4em;
+}
+.cardlist .mb-5 svg{
+    height: 1.7em;
+    width: 1.5em;
+}
+
+  .btnaddtask {
+      position: relative;
+      left:25.8em;
+      top:4em;
+      font-size: 1.4em;
+      font-weight:bold;
+      width: 9em;
+  }
+  .btnaddtask svg{
+    height: 1.7em;
+    width: 2em;
+  }
+  #offcanvas{
+      position: absolute;
+      top: 9em;
+      left: 0em;
+      width: 18em;
+      height: 3.5em;
+      border: 0.5em solid transparent wheat;
+      box-shadow: 2px 2px 4px 3px rgba(141, 141, 141, 0.424);
+      display: inline-block;
+      border-radius: 0.2em; 
+   }

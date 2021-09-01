@@ -11,8 +11,7 @@ componentDidMount(){
     render() {
         return (
             <>
-
-                <div style={{backgroundColor:"#ffffff3d",boxShadow:"3px 3px 3px" , border: "1px solid black", display: "inline-block",width:"fit-content",height:"7ch",padding:"10px" }} variant="primary" onClick={this.props.handeloffcanvasshow}>
+                <div id="offcanvas" variant="primary" onClick={this.props.handeloffcanvasshow}>
                 <span>{this.props.countryName} <img width="50px"  src={`/static/images/${this.props.weatherData.full.weather.icon}.png`} alt="logo" /> {this.props.weatherData.full.temp}℃  {this.props.weatherData.descreption}</span>
                 </div>
                 {/* style={{width:"350px" , backgroundColor:"black",color:"white"}} */}

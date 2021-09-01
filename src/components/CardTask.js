@@ -1,47 +1,45 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Form } from 'react-bootstrap';
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
-
-
 class CardTask extends React.Component {
-
-    colorgenerater = () => {
-        let sympole = "123456789ABCDEF"
-        let color = "#"
-        for (let i = 0; i < 6; i++) {
-            color = color + sympole[Math.floor(Math.random() * 16)]
-        }
+    colorgenerater = (min, max) => {
+        let step1 = max - min + 1;
+        let step2 = Math.random() * step1
+        let color = Math.floor(step2) + min;
         return color;
     }
     render() {
-        console.log(this.colorgenerater())
+        const sympole = ["#8ECAE6", "#219EBC", "#B5E6FF", "#FFB703", "#FB8500", "#FFB35C", "#FFC533", "#60C7FB", "#40BEDD", "#8AC8E5"];
         return (
-
             <div className='cardlist' >
                 {this.props.myTask.map((item, idx) => {
                     return (
                         <Card
                             key={idx}
-                            style={{ width: '30rem' }}
+                            style={{ width: '18rem' }}
                             className="mb-5"
                         >
-                            <Card.Header style={{ color: `${this.colorgenerater()}` }}>To-DO Num: {idx + 1}</Card.Header>
+                            <Card.Header
+                                style={{ backgroundColor: `${sympole[this.colorgenerater(0, sympole.length - 1)]}` }}>
+                                To-DO: {idx + 1}
+                            </Card.Header>
                             <Card.Body>
-                                <Card.Title> {item.title} </Card.Title>
+                                <Card.Title style={{ height: "2em" }}> {item.title} </Card.Title>
                                 <Card.Text>
-                                    Description: {item.description}
+                                    <Form>
+                                        <Form.Control value={item.description}
+                                            as="textarea" rows={4} readOnly />
+                                    </Form>
                                     <hr />
-                                    Clender Event : { item.holiday}
+                                    Holiday: {item.holiday}
                                 </Card.Text>
                                 <hr />
-
                                 <Button variant="danger" onClick={() => { this.props.deleteTask(item._id) }} > <MdDeleteForever /></Button>
                                 <Button variant="primary" onClick={() => { this.props.getTask_ID(item._id) }}><FaEdit /></Button>
                             </Card.Body>
                         </Card>
-                        // ))
                     )
                 }
                 )
@@ -50,5 +48,4 @@ class CardTask extends React.Component {
         );
     }
 }
-
 export default CardTask;
