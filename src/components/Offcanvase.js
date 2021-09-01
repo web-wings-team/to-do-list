@@ -5,124 +5,39 @@ import { AiFillSetting } from "react-icons/ai";
 
 
 class Offcanvase extends React.Component {
-
+componentDidMount(){
+    console.log( this.props.movieData);
+}
     render() {
         return (
             <>
 
-                <div style={{  border: "1px solid red", display: "inline-block",width:"20ch",height:"18ch" }} variant="primary" onClick={this.props.handeloffcanvasshow}>
-                <span>{this.props.countryName} <img width="50px"  src={`/static/images/${this.props.weatherData.full.weather.icon}.png`} alt="logo" />{this.props.weatherData.descreption}  </span>
+                <div style={{backgroundColor:"#ffffff3d",boxShadow:"3px 3px 3px" , border: "1px solid black", display: "inline-block",width:"fit-content",height:"7ch",padding:"10px" }} variant="primary" onClick={this.props.handeloffcanvasshow}>
+                <span>{this.props.countryName} <img width="50px"  src={`/static/images/${this.props.weatherData.full.weather.icon}.png`} alt="logo" /> {this.props.weatherData.full.temp}℃  {this.props.weatherData.descreption}</span>
                 </div>
-
-                <Offcanvas show={this.props.offcanvasshow} >
+                {/* style={{width:"350px" , backgroundColor:"black",color:"white"}} */}
+                <Offcanvas  show={this.props.offcanvasshow} >
                     <Offcanvas.Header closeButton onHide={this.props.handeloffcanvasshow}>
-                        <Offcanvas.Title>setting</Offcanvas.Title>
+                        <Offcanvas.Title>Movies To Watch </Offcanvas.Title>
                     </Offcanvas.Header>
-                    <span style={{ color: "black", border: "1px solid black", display: "inline-block",width:"16ch",height:"3ch" ,textAlign:"center"}} onClick={this.props.handleUpdateCountry}>   User Info < AiFillSetting />  
-                    </span>
                     <Offcanvas.Body>
                         <Accordion>
-
-                            <Accordion.Item eventKey="1">
-                                <Accordion.Header>Accordion Item #1</Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
+                           
+                            { this.props.movieData.map((item,i)=>{
+                                return(
+                        <Accordion.Item eventKey={i}>
+                        <Accordion.Header> Movie Name : {item.title}
+                        <br/>In Cinema : {item.date}
+                        </Accordion.Header>
+                                <Accordion.Body style={{display:"flex",justifyContent:"space-evenly",flexWrap:"wrap",backgroundColor:"black",color:"white"}}>
+                                <img  width="80%" alt={item.title} src={item.src}/>
+                               <p> <br/> {item.overview}</p>
                                 </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="2">
-                                <Accordion.Header>Accordion Item #2</Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="3">
-                                <Accordion.Header>Accordion Item #3</Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="4">
-                                <Accordion.Header>Accordion Item #4</Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="5">
-                                <Accordion.Header>Accordion Item #5</Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="6">
-                                <Accordion.Header>Accordion Item #6</Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="7">
-                                <Accordion.Header>Accordion Item #7</Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="8">
-                                <Accordion.Header>Accordion Item #8</Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est laborum.
-                                </Accordion.Body>
-                            </Accordion.Item>
+                            </Accordion.Item>)})}
+                           
                         </Accordion>
                     </Offcanvas.Body>
                 </Offcanvas>
-
             </>
         );
     }

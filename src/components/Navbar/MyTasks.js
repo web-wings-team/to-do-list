@@ -13,19 +13,21 @@ import DatePicker from '../../DatePicker';
 import countryData from "./countryData.json";
 import Offcanvase from '../Offcanvase';
 import { GoDiffAdded } from "react-icons/go";
-
-
+import { AiFillSetting } from "react-icons/ai";
+import UpdateContry from '../module/UpdateContry';
 class MyTasks extends Component {
     constructor(props) {
         super(props);
         this.state = {
             //For Add Task modals
-
+            movieData: [],
+            movieShow: false,
             showAddModal: false,
             ///For Update Task modals
             showUpdateModal: false,
             //For our tasks Data
             showMContry: false,
+            showMupdateContry: false,
             offcanvasshow: false,
             taskData: [],
             dateStr: "",
@@ -37,12 +39,16 @@ class MyTasks extends Component {
             countrydata: '',
             // countryapproved: false
             userInf: [],
-            weatherData:[],
+            weatherData: [],
         }
     }
     ///***********************************************************************************///
     ///**********************************************************************************///
-
+    handelUpdateContry = () => {
+        this.setState({
+            showMupdateContry: true,
+        })
+    }
     handleAddModal = () => {
         this.setState({
             showAddModal: !this.state.showAddModal,
@@ -57,6 +63,7 @@ class MyTasks extends Component {
     handelcontrymodal = () => {
         this.setState({
             showMContry: false,
+            showMupdateContry:false,
         })
     }
 
@@ -80,18 +87,27 @@ class MyTasks extends Component {
         }
 
         if (this.state.userInf.length !== 0) {
-        // http://localhost:3002/weather?cityName=seattle
-        let weatherInf = await axios.get(`${process.env.REACT_APP_SERVER}/weather?cityName=${this.state.userInf[0].countryName}`)
-        console.log(weatherInf.data[0]);
-        await this.setState({
-            weatherData: weatherInf.data[0],
-        })
-    }
+            // http://localhost:3002/weather?cityName=seattle
+            let weatherInf = await axios.get(`${process.env.REACT_APP_SERVER}/weather?cityName=${this.state.userInf[0].countryName}`)
+            console.log(weatherInf.data[0]);
+            await this.setState({
+                weatherData: weatherInf.data[0],
+            })
+        }
 
-        // http://localhost:3000/getTasks?email=a.nazzal&date=Aug-28-2021
         this.getCurrentDate().then(() => {
             this.getTasks();
         });
+        if (this.state.userInf.length !== 0) {
+        let movieDataN = await axios.get(
+            `${process.env.REACT_APP_SERVER}/movies?cityCode=${this.state.userInf[0].countryCode}&cityDate=${this.state.currentdate}`
+        );
+        console.log("movies", movieDataN.data);
+        await this.setState({
+            movieData: movieDataN.data,
+            movieShow: true,
+        });
+    }
     }
     //**********************************************************************************///
     ///To giting country val/////
@@ -128,16 +144,32 @@ class MyTasks extends Component {
         await this.setState({
             weatherData: weatherInf.data[0],
         })
+        this.getCurrentDate();
+        let movieDataN = await axios.get(
+            `${process.env.REACT_APP_SERVER}/movies?cityCode=${this.state.userInf[0].countryCode}&cityDate=${this.state.currentdate}`
+        );
+        console.log("movies", movieDataN.data);
+        await this.setState({
+            movieData: movieDataN.data,
+            movieShow: true,
+        });
         // console.log('rrrrrrrrrr', taskDataInfo);
         // this.componentDidMount();
     }
     //**********************************************************************************///
+    updateCountry=async(newContry, id)=>{
+        let userInfData = await axios.put(`${process.env.REACT_APP_SERVER}/updateContry/${id}`, newContry);
+        await this.setState({
+            userInf: userInfData.data,
+        });
+        this.componentDidMount();
+    }
     ///For Add new task and Re-render My tasks depend on email + date ///////////
     addTask = async (e) => {
         e.preventDefault();
-// ${process.env.REACT_APP_SERVER}/event?contryCode=${this.state.userInf[0].countryCode}&date=${e.target.date.value}
+        // ${process.env.REACT_APP_SERVER}/event?contryCode=${this.state.userInf[0].countryCode}&date=${e.target.date.value}
         let holidayData = await axios.get(`${process.env.REACT_APP_SERVER}/event?contryCode=${this.state.userInf[0].countryCode}&date=${e.target.date.value}`);
-        console.log(holidayData.data[0].nameOfEvent );
+        console.log(holidayData.data[0].nameOfEvent);
 
         const { user } = this.props.auth0;
         let taskDataInfo = {
@@ -145,12 +177,13 @@ class MyTasks extends Component {
             description: e.target.description.value,
             date: e.target.date.value,
             email: user.email,
-            holiday:holidayData.data[0].nameOfEvent,
+            holiday: holidayData.data[0].nameOfEvent,
         }
         // http://localhost:3000/addSlice?email=a.nazzal,obj
         let task = await axios.post(`${process.env.REACT_APP_SERVER}/addSlice`, taskDataInfo);
         await this.setState({
             taskData: task.data,
+            showAddModal:false,
         });
     }
     //**********************************************************************************///
@@ -247,7 +280,7 @@ class MyTasks extends Component {
         console.log('currentdate', this.state.currentdate)
         return (
             <div>
-                {/* ///////////////////////////////////////////////////////////////// */}
+                     <span style={{ color: "black", border: "1px solid black", display: "inline-block",width:"16ch",height:"3ch" ,textAlign:"center"}} onClick={this.handelUpdateContry}> User Info < AiFillSetting />  </span>
                 <div>
                     <Modal show={this.state.showMContry} >
                         <Modal.Header closeButton>
@@ -287,7 +320,6 @@ class MyTasks extends Component {
 
                                                 <option key={i} value={`${item.name},${item.code}`} > {item.name}, {item.code}</option>
                                             </>
-
                                         )
                                     })}
                                 </Form.Select>
@@ -298,6 +330,8 @@ class MyTasks extends Component {
                         </Form>
                     </Modal>
                 </div>
+
+              {this.state.userInf.length !== 0 && < UpdateContry showMupdateContry={this.state.showMupdateContry}  handelcontrymodal={this.handelcontrymodal} userInf={this.state.userInf[0]} updateCountry={this.updateCountry}/>}
 
                 {/* ///////////////////////////////////////////////////////////////// */}
                 <Button variant="primary" onClick={this.handleAddModal}>
@@ -316,10 +350,6 @@ class MyTasks extends Component {
                     handleAddModal={this.handleAddModal}
                     addTask={this.addTask}
                 />
-                {/* ///////////////////////////////////////////////////////////////// */}
-
-                {/* ///////////////////////////////////////////////////////////////// */}
-
                 {/* to render All my task FROM API*/}
                 {
                     <CardTask
@@ -338,7 +368,7 @@ class MyTasks extends Component {
                         updateTaskData={this.updateTaskData}
                     />
                 }
-                {this.state.userInf.length !== 0 &&this.state.weatherData.length !==0 &&<Offcanvase handleUpdateCountry={this.handleUpdateCountry} handeloffcanvasshow={this.handeloffcanvasshow} offcanvasshow={this.state.offcanvasshow} countryName={this.state.userInf[0].countryName} weatherData={this.state.weatherData} />}
+                {this.state.userInf.length !== 0 && this.state.weatherData.length !== 0 && this.state.movieData.length !== 0 &&<Offcanvase handleUpdateCountry={this.handleUpdateCountry} handeloffcanvasshow={this.handeloffcanvasshow} offcanvasshow={this.state.offcanvasshow} countryName={this.state.userInf[0].countryName} weatherData={this.state.weatherData} movieData={this.state.movieData} />}
             </div>
         );
     }
