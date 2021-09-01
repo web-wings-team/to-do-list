@@ -12,7 +12,6 @@ import { Modal, Form  } from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 // import Renderdtask from '../renderdate';
 import DatePicker from "../../DatePicker";
 import countryData from "./countryData.json";
@@ -37,6 +36,7 @@ class MyTasks extends Component {
       countrydata: "",
       userInf: [],
     };
+
   }
   ///***********************************************************************************///
   ///**********************************************************************************///
@@ -64,7 +64,22 @@ class MyTasks extends Component {
     });
   };
   ///For Render My tasks depend on email + date //////
+
+  // let userConutryInDb = await axios.get(
+    // `${process.env.REACT_APP_SERVER}/getContry?email=${this.props.auth0.user.email}`
+    // );
+
+    // let x= userConutryInDb.data.sort((a,b)=>{
+      
+    //  a.date.split("-").join()-b.date.split("-").join() 
+
+    // })
+    // console.log(userConutryInDb.data);
+    // await this.setState({
+    //   userInf: x,
+    // });
   componentDidMount = async () => {
+    
     let userConutryInDb = await axios.get(
       `${process.env.REACT_APP_SERVER}/getContry?email=${this.props.auth0.user.email}`
     );
@@ -78,18 +93,21 @@ class MyTasks extends Component {
         showMContry: true,
       });
     }
-    let movieDataN = await axios.get(
-        `${process.env.REACT_APP_SERVER}/movies?cityCode=${this.state.userInf[0].countryCode}`
-      );
-      console.log("movies", movieDataN.data);
-      await this.setState({
-        movieData: movieDataN.data,
-        movieShow: true,
-      });
+    
     // http://localhost:3000/getTasks?email=a.nazzal&date=Aug-28-2021
     this.getCurrentDate().then(() => {
       this.getTasks();
     });
+
+    let movieDataN = await axios.get(
+      `${process.env.REACT_APP_SERVER}/movies?cityCode=${this.state.userInf[0].countryCode}&cityDate=${this.state.currentdate}`
+    );
+    console.log("movies", movieDataN.data);
+    await this.setState({
+      movieData: movieDataN.data,
+      movieShow: true,
+    });
+
   };
   //**********************************************************************************///
   ///To giting country val/////
@@ -121,14 +139,15 @@ class MyTasks extends Component {
     await this.setState({
       userInf: userInf.data,
     });
+    this.getCurrentDate();
     let movieDataN = await axios.get(
-        `${process.env.REACT_APP_SERVER}/movies?cityCode=${this.state.userInf[0].countryCode}`
-      );
-      console.log("movies", movieDataN.data);
-      await this.setState({
-        movieData: movieDataN.data,
-        movieShow: true,
-      });
+      `${process.env.REACT_APP_SERVER}/movies?cityCode=${this.state.userInf[0].countryCode}&cityDate=${this.state.currentdate}`
+    );
+    console.log("movies", movieDataN.data);
+    await this.setState({
+      movieData: movieDataN.data,
+      movieShow: true,
+    });
 
     // console.log('rrrrrrrrrr', taskDataInfo);
     // this.componentDidMount();
@@ -137,16 +156,8 @@ class MyTasks extends Component {
   ///For Add new task and Re-render My tasks depend on email + date ///////////
   addTask = async (e) => {
     e.preventDefault();
-    let movieDataN = await axios.get(
-      `${process.env.REACT_APP_SERVER}/movies?cityCode=${this.state.userInf[0].countryCode}`
-    );
-    console.log("movies", movieDataN.data);
-    await this.setState({
-      movieData: movieDataN.data,
-      movieShow: true,
-    });
-
-    console.log("movieshaArray", this.state.movieData);
+  
+  console.log("movieshaArray", this.state.movieData);
 
     // ${process.env.REACT_APP_SERVER}/event?contryCode=${this.state.userInf[0].countryCode}&date=${e.target.date.value}
     let holidayData = await axios.get(
@@ -388,7 +399,10 @@ class MyTasks extends Component {
       </div>
 
     );
+    
   }
+  
+  
 }
 
 export default withAuth0(MyTasks);

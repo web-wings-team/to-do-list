@@ -33,7 +33,7 @@ class App extends React.Component {
               </Route>
 
               <Route exact path="/profile">
-              {((isAuthenticated) ? <Profile/> :<Login/> )}
+              {isAuthenticated ? <Profile/> :<Login/> }
               </Route>
 
               <Route exact path="/About_Us">
