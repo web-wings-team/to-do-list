@@ -6,22 +6,19 @@
     padding:2em;
 }
 .footer img{
-    margin-top: 1em;
-    margin-left: 2em;
+    margin-top: 2%;
+    margin-left: 3%;
+    width: 16em;
+    height: 6em;
+  
 }
 .footerBrand{
     position: relative;
-    top:1.3em;
+    top:2%;
     display:inline-block;
-    left:25em;
+    left:38.5%;
 }
-.footer .me-auto {
-    position: relative;
-    right: 12em;
-    bottom:12em;
-    display:inline-block;
-    /* border: 1px solid rgb(0, 38, 255); */
-}
+
 .footer hr{
     position: relative;
     top:1em;
@@ -29,10 +26,10 @@
 .footer .vision{
     /* border: 1px solid red; */
     position: relative;
-    left: 3em;
-    bottom: 1em;
-    width: 23em;
-    display:inline-block;
+    left: 7%;
+    bottom: 3%;
+    width: 18%;
+    display: inline-block;
     text-align: justify;
 }
  .vision h5{
@@ -51,14 +48,16 @@
     /* border: 1px solid rgb(153, 63, 63); */
     display:inline-block;
     position: relative;
-    right: 8em;
-    top: 2em;
+    left: 14%;;
+    top: 3em;
     width: 15em;
     text-align: center;
 }
 .footer .contact h6{
-    font-weight: bold;
+    font-weight: bolder;
+    font-size: large;
     width: 15em;
+    
 }
 .footer .contact p{
     font-weight: bold;
@@ -68,7 +67,7 @@
         /* border: 1px solid red; */
         display:inline-block;
         position: relative;
-        right: 4em;
+        left: 25%;
         bottom: 5em;
 }
 .icons svg{

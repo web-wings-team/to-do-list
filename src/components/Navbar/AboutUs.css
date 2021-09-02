@@ -29,12 +29,12 @@
     transition: 0.5s;
   }
   .cards:hover{
-    height: 400px;
+    height: 350px;
   }
   #container .cards img{
     position: absolute;
     bottom: 0;
-    left: 50%;
+    left: 30%;
     transform: translateX(-50%);
     height: 350px;
     transition: 0.5s;
@@ -42,7 +42,7 @@
   }
   #container .cards:hover img{
     left: 80%;
-    height: 400px;
+    height: 350px;
   border-radius: 8px;
   
   }
@@ -81,7 +81,7 @@
   font-weight: 700;
   border-radius: 5px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 15px 0 rgba(0, 0, 0, 0.3);
-  
+  margin-left: -83px;
   
   }
   

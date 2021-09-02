@@ -16,21 +16,21 @@ class Login extends React.Component {
           </div>
           <div className="logoMid">
             <img alt="logoMid" src={logoMid}></img>
+            <p>To Do gives you focus, from work to play.</p>
+                      <LoginButton />
           </div>
           <div className="homeimgRight">
             <img alt="homeimgRight" src={imgRight}></img>
           </div>
-          <p>To Do gives you focus, from work to play.</p>
-        </div>
-        <div className="loginbtn">
-          <LoginButton />
         </div>
         <div className="domain">
-          <h3> 🕐 ‌Time, Manege It With Our App</h3>
-          <br /><br />
+        <div className="homrText">
+        <h3> 🕐 ‌Time, Manege It With Our App</h3>
+          <br />
           <h5>‌To-do lists are a great managing tool because you can use them to clarify your goals with the exact time so you can handle and control your day event and task<br /><br />
             When you write all your tasks in a list ,it helps you stay focused. While freeing up space in your mind for other more creative tasks..
           </h5>
+          </div>
           <div className="midimg">
             <img src={Midimg }alt="Midimg"/>
           </div>

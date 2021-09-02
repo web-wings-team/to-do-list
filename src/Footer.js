@@ -18,15 +18,11 @@ class Footer extends React.Component {
           <h5>Be productive</h5>
           <p> to do list allows you to prioritize the tasks that are more important</p>
         </div>
-        <div className="me-auto">
-          <a href="About_Us">About Us</a>
-          <a href="my_tasks">Main Page</a>
-        </div>
         <div className="contact">
           <h6>Contact Us</h6>
-          <p> <FaLocationArrow />  Street name and number City, Country</p> <br/>
-          <p> <FaPhoneAlt />   (+00) 0000 000 000</p> <br/>
-          <p> <FaMailBulk />  office@company.com</p> <br/>
+          <p> <FaLocationArrow />  Suliman Al Nabulsi St 43-35, Amman, Jordan </p> <br/>
+          <p> <FaPhoneAlt />   (+962) 7888 887 731</p> <br/>
+          <p> <FaMailBulk />  WebWings@gmail.com</p> <br/>
         </div>
         <div className="icons">
           <FaFacebookSquare/>

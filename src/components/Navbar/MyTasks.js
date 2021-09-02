@@ -279,8 +279,14 @@ class MyTasks extends Component {
     render() {
         console.log('currentdate', this.state.currentdate)
         return (
+
+            <>
+            <div className="country">
+            <Button  style={{ backgroundColor:"salmon",color: "black",  display: "inline-block",width:"14ch",height:"38px" ,textAlign:"center"}} onClick={this.handelUpdateContry}>  setting  < AiFillSetting />  </Button>
+            </div>
+            <button className="btnMov" onClick={this.handeloffcanvasshow}>Released Movies List 🎬</button>
             <div>
-                     <span style={{ color: "black", border: "1px solid black", display: "inline-block",width:"16ch",height:"3ch" ,textAlign:"center"}} onClick={this.handelUpdateContry}> User Info < AiFillSetting />  </span>
+                {this.state.userInf.length !== 0 && this.state.weatherData.length !== 0 && this.state.movieData.length !== 0 &&<Offcanvase handleUpdateCountry={this.handleUpdateCountry} handeloffcanvasshow={this.handeloffcanvasshow} offcanvasshow={this.state.offcanvasshow} countryName={this.state.userInf[0].countryName} weatherData={this.state.weatherData} movieData={this.state.movieData} />}
                 <div>
                     <Modal show={this.state.showMContry} >
                         <Modal.Header closeButton>
@@ -334,9 +340,10 @@ class MyTasks extends Component {
               {this.state.userInf.length !== 0 && < UpdateContry showMupdateContry={this.state.showMupdateContry}  handelcontrymodal={this.handelcontrymodal} userInf={this.state.userInf[0]} updateCountry={this.updateCountry}/>}
 
                 {/* ///////////////////////////////////////////////////////////////// */}
-                <Button className="btnaddtask btn-default" variant="warning" onClick={this.handleAddModal}>
+                <h3>Add New Task :</h3>
+                <button className="btnadd"  onClick={this.handleAddModal}>
                     <GoDiffAdded />  ADD Task
-                </Button>
+                </button>
                 {/* ///////////////////////////////////////////////////////////////// */}
                 < DatePicker
                     getDate={this.getDate}
@@ -368,8 +375,8 @@ class MyTasks extends Component {
                         updateTaskData={this.updateTaskData}
                     />
                 }
-                {this.state.userInf.length !== 0 && this.state.weatherData.length !== 0 && this.state.movieData.length !== 0 &&<Offcanvase handleUpdateCountry={this.handleUpdateCountry} handeloffcanvasshow={this.handeloffcanvasshow} offcanvasshow={this.state.offcanvasshow} countryName={this.state.userInf[0].countryName} weatherData={this.state.weatherData} movieData={this.state.movieData} />}
             </div>
+            </>
         );
     }
 }

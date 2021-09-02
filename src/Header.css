@@ -1,9 +1,9 @@
 a{
   color:rgb(0, 0, 0);
   text-decoration: none;
-  margin-left: 5%;
-position: relative;
-left:58%;
+     margin-left: 3%;
+    position: relative;
+    left: 57%;
 font-size:1.2em;
 font-weight:bold;
 font-family:monospace;
@@ -15,14 +15,15 @@ a:hover{
   box-shadow: 2px 2px 4px 3px rgba(85, 85, 85, 0.424);
   position: sticky;
   top: 0;
-  padding: 2em;
+  padding: .7em;
   z-index: 100;
   background-color: #F0F0F0;
   color: #000;
 }
 .header .btn{
-position: relative;
-left:41em
+  position: relative;
+  left: 49em;
+  top: 72px;
 }
 .header a svg{
   width: 1.2em;
@@ -32,5 +33,16 @@ left:41em
   font-weight: bold;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
   .header img{
-    width: 5em;
+    width: 107%;
+    height: 3.5em;
+    margin-left: 24%;
   }
+  .navbar-brand button {
+    position: relative;
+    left: 88em;
+    z-index: 2;
+  }
+  #nav2{
+    background-color: white;
+  }
+  

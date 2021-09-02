@@ -9,7 +9,7 @@ function LoginButton() {
 
     return !isAuthenticated && (
 
-        <Button variant="warning" onClick={loginWithRedirect}> <FiLogIn/> GET START </Button>
+        <Button style={{fontWeight:"bold" ,width:"40%",padding:"3%"}} variant="warning" onClick={loginWithRedirect}> <FiLogIn/> GET START </Button>
     );
 }
 
