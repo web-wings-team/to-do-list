@@ -1,7 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Accordion, Offcanvas } from 'react-bootstrap';
-import { AiFillSetting } from "react-icons/ai";
 
 
 class Offcanvase extends React.Component {
@@ -17,7 +16,7 @@ componentDidMount(){
                 {/* style={{width:"350px" , backgroundColor:"black",color:"white"}} */}
                 <Offcanvas  show={this.props.offcanvasshow} >
                     <Offcanvas.Header closeButton onHide={this.props.handeloffcanvasshow}>
-                        <Offcanvas.Title>Movies To Watch </Offcanvas.Title>
+                        <Offcanvas.Title> </Offcanvas.Title>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Accordion>
